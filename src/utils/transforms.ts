@@ -1,4 +1,4 @@
-import type { Category, EChartPieChartData, Transaction, TransactionType } from "../types/types";
+import type { Category, EChartBarChartData, EChartPieChartData, Transaction, TransactionType } from "../types/types";
 
 export const transformNumberToPositive = (n: number): number => {
   return Math.abs(n);
@@ -60,7 +60,7 @@ export const groupTransactionsByMonthAndType = (data: Transaction[]) => {
   const formatter = new Intl.DateTimeFormat("en-EN", { month: "short" });
   return arr.map(item => {
     const label = formatter.format(new Date(`${item.key}-01`));
-    return { category: label, Income: item.income, Expense: transformNumberToPositive(item.expense) };
+    return { category: label, income: item.income, expense: transformNumberToPositive(item.expense) } as unknown as EChartBarChartData;
   });
 };
 
@@ -92,7 +92,7 @@ export const groupExpensesByDayOfTheWeek = (data: Transaction[]) => {
       category: weekdays[dayIndex === 0 ? 6 : dayIndex - 1],
       Average:
         map[dayIndex]?.count ? (transformNumberToPositive(map[dayIndex].total) / map[dayIndex].count).toFixed(2) : 0,
-    }));
+    } as unknown as EChartBarChartData));
   }
 }
 

@@ -1,8 +1,4 @@
-import {
-  format, subDays, subWeeks, subMonths, subYears,
-  addDays, addWeeks, addMonths, addYears,
-  getWeek, startOfMonth
-} from 'date-fns';
+import { format, subDays, subMonths, startOfMonth } from 'date-fns';
 import { v4 as uuidv4 } from 'uuid';
 import type { Transaction } from "../types/types";
 
@@ -18,7 +14,7 @@ export const mockTransactions: Transaction[] = [
   { id: uuidv4(), name: "Trip", amount: -900, category: "Travel", type: "expense", date: format(subDays(new Date(), 11), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Groceries", amount: -85, category: "Food", type: "expense", date: format(subDays(new Date(), 12), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Bus Card", amount: -40, category: "Transportation", type: "expense", date: format(subDays(new Date(), 12), "yyyy-MM-dd") },
-  { id: uuidv4(), name: "Investment", amount: 150, category: "Others", type: "expense", date: format(subDays(new Date(), 16), "yyyy-MM-dd") },
+  { id: uuidv4(), name: "Investment", amount: -150, category: "Others", type: "expense", date: format(subDays(new Date(), 16), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Pet Food", amount: -25, category: "Pets", type: "expense", date: format(subDays(new Date(), 17), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Clothes Shopping", amount: -150, category: "Shopping", type: "expense", date: format(subDays(new Date(), 30), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Groceries", amount: -140, category: "Food", type: "expense", date: format(subDays(new Date(), 32), "yyyy-MM-dd") },
@@ -43,7 +39,7 @@ export const mockTransactions: Transaction[] = [
   { id: uuidv4(), name: "Running Shoes", amount: -120, category: "Sport", type: "expense", date: format(subDays(new Date(), 84), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Online Course", amount: -200, category: "Education", type: "expense", date: format(subDays(new Date(), 90), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Dinner Out", amount: -60, category: "Food", type: "expense", date: format(subDays(new Date(), 100), "yyyy-MM-dd") },
-  { id: uuidv4(), name: "UD academy subscription", amount: 300, category: "Others", type: "expense", date: format(subDays(new Date(), 100), "yyyy-MM-dd") },
+  { id: uuidv4(), name: "UD academy subscription", amount: -300, category: "Others", type: "expense", date: format(subDays(new Date(), 100), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Vacation", amount: -800, category: "Travel", type: "expense", date: format(subDays(new Date(), 105), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Vet Visit", amount: -80, category: "Pets", type: "expense", date: format(subDays(new Date(), 105), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Electricity Bill", amount: -110, category: "Housing", type: "expense", date: format(subDays(new Date(), 110), "yyyy-MM-dd") },
@@ -52,14 +48,14 @@ export const mockTransactions: Transaction[] = [
   { id: uuidv4(), name: "Train Tickets", amount: -60, category: "Transportation", type: "expense", date: format(subDays(new Date(), 116), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Tech Gadget", amount: -300, category: "Shopping", type: "expense", date: format(subDays(new Date(), 120), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Groceries", amount: -130, category: "Food", type: "expense", date: format(subDays(new Date(), 120), "yyyy-MM-dd") },
-  { id: uuidv4(), name: "Freelance Project", amount: 250, category: "Others", type: "expense", date: format(subDays(new Date(), 125), "yyyy-MM-dd") },
+  { id: uuidv4(), name: "Freelance Project", amount: -250, category: "Others", type: "expense", date: format(subDays(new Date(), 125), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Rent", amount: -1000, category: "Housing", type: "expense", date: format(subDays(new Date(), 135), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Streaming Service", amount: -20, category: "Entertainment", type: "expense", date: format(subDays(new Date(), 142), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Course Fee", amount: -200, category: "Education", type: "expense", date: format(subDays(new Date(), 145), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Bicycle", amount: -250, category: "Sport", type: "expense", date: format(subDays(new Date(), 145), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Black Friday Shopping", amount: -400, category: "Shopping", type: "expense", date: format(subDays(new Date(), 150), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Gym Membership", amount: -40, category: "Sport", type: "expense", date: format(subDays(new Date(), 153), "yyyy-MM-dd") },
-  { id: uuidv4(), name: "Trip to Peru", amount: 1900, category: "Travel", type: "expense", date: format(subDays(new Date(), 155), "yyyy-MM-dd") },
+  { id: uuidv4(), name: "Trip to Peru", amount: -1900, category: "Travel", type: "expense", date: format(subDays(new Date(), 155), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Birthday Gift", amount: -60, category: "Shopping", type: "expense", date: format(subDays(new Date(), 155), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Internet Bill", amount: -50, category: "Housing", type: "expense", date: format(subDays(new Date(), 165), "yyyy-MM-dd") },
   { id: uuidv4(), name: "Vacation Package", amount: -1500, category: "Travel", type: "expense", date: format(subDays(new Date(), 170), "yyyy-MM-dd") },

@@ -3,6 +3,11 @@ export const TimeFilterOptionsDashboard = [
   { label: 'Year', value: 'year' }
 ];
 
+export const ThemeOptions = [
+  { label: 'Dark', value: 'dark' },
+  { label: 'Light', value: 'light' }
+];
+
 export const TransactionTypesOptions = [
   { label: 'Expenses', value: 'expense' },
   { label: 'Incomes', value: 'income' },
@@ -129,5 +134,7 @@ export const CATEGORY_ICON_LIST: string[] = [
 ];
 
 export const SIZES = {
-  w_md: 483
+  SM: 640,
+  MD: 768,
+  LG: 1024
 } 

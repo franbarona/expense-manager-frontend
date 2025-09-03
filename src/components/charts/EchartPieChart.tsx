@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import ReactECharts from 'echarts-for-react';
 import type { EChartPieChartData } from '../../types/types';
 import { formatNumber } from '../../utils/transforms';
+import { useTheme } from '../../context/ThemeContext';
 
 interface Props {
   data: EChartPieChartData[];
@@ -11,6 +12,9 @@ const EchartPieChart = ({ data }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState<number>(0);
   const total = data.reduce((acc, item) => acc + item.value, 0);
+  const { isDarkMode } = useTheme();
+  const [textColor, setTextColor] = useState('#000')
+
 
   useEffect(() => {
     if (containerRef.current) {
@@ -29,6 +33,10 @@ const EchartPieChart = ({ data }: Props) => {
     };
   }, []);
 
+  useEffect(() => {
+    setTextColor(isDarkMode ? '#fff' : '#000');
+  }, [isDarkMode])
+
   const option = {
     tooltip: {
       trigger: 'item'
@@ -42,7 +50,10 @@ const EchartPieChart = ({ data }: Props) => {
       itemHeight: 20,
       padding: 20,
       width: 200,
-      height: 200
+      height: 200,
+      textStyle: {
+        color: textColor
+      }
     },
     graphic: [
       {
@@ -52,7 +63,7 @@ const EchartPieChart = ({ data }: Props) => {
         style: {
           text: `Total:`,
           textAlign: "center",
-          fill: "#1f2937", // equivalente a text-gray-800
+          fill: textColor,
           fontSize: 20,
           fontFamily: "Poppins, sans-serif" // 👈 tu tipografía aquí
         }
@@ -64,7 +75,7 @@ const EchartPieChart = ({ data }: Props) => {
         style: {
           text: `${formatNumber(total, 2)}$`,
           textAlign: "center",
-          fill: "#1f2937", // equivalente a text-gray-800
+          fill: textColor, // equivalente a text-gray-800
           fontSize: 32,
           fontFamily: "Poppins, sans-serif" // 👈 tu tipografía aquí
         }
@@ -105,7 +116,7 @@ const EchartPieChart = ({ data }: Props) => {
 
   return (
     <div className='w-full h-full mx-0 my-auto' ref={containerRef}>
-      <ReactECharts option={option} style={{width: '100%'}} />
+      <ReactECharts option={option} style={{ width: '100%' }} />
     </div>
   );
 };

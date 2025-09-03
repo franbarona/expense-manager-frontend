@@ -1,22 +1,30 @@
 import { useState } from 'react';
+import { FaPlus } from 'react-icons/fa6';
 import { type TransactionType } from '../enums/enums';
-import { TabsComponent } from '../components/ui/TabsComponent';
+import type { Category } from '../types/types';
 import { TransactionTypesWithoutBalanceOptions } from '../constants/constants';
-import { ActionButton } from '../components/ui/ActionButtonComponent';
-import { GrAdd } from 'react-icons/gr';
+// Contexts
+import { useCategories } from '../context/CategoriesContext';
+import { useWindowSize } from '../context/WindowSizeContext';
+// Hooks
 import useModal from '../hooks/useModal';
+import { useStickyOnScroll } from '../hooks/useStickyOnScroll';
+// Components
+import { TabsComponent } from '../components/ui/TabsComponent';
+import { ActionButton } from '../components/ui/ActionButtonComponent';
 import { ModalComponent } from '../components/ui/ModalComponent';
 import CategoryForm from '../components/CategoryForm';
-import type { Category } from '../types/types';
-import { filterCategoriesByType } from '../utils/transforms';
-import { useCategories } from '../context/CategoriesContext';
-import DynamicIcon from '../components/ui/DynamicIcon';
+import { HeaderComponent } from '../components/ui/HeaderComponent';
+import CategoryList from '../components/CategoryList';
+import { TitleComponent } from '../components/ui/TitleComponent';
 
 const CategoriesPage = () => {
   const { categories, setCategories } = useCategories();
   const [categoryToEdit, setCategoryToEdit] = useState<Category | null>(null);
   const [transactionType, setTransactionType] = useState<TransactionType | undefined>('expense');
   const { isModalOpen, openModal, closeModal, handleOverlayClick } = useModal();
+  const { width } = useWindowSize();
+  const isSticky = useStickyOnScroll();
 
   // Open modal to create category
   const createCategory = () => {
@@ -56,49 +64,30 @@ const CategoriesPage = () => {
     }
   };
 
-  const CategoryList = () => {
-    return (
-      <div className='flex flex-wrap justify-center overflow-x-hidden overflow-y-auto p-4'>
-        {
-          filterCategoriesByType(categories, 'expense').map((category) => (
-            <button
-              type='button'
-              onClick={() => editCategory(category)}
-              key={category.id}
-              className={`w-1/4 flex flex-col justify-center items-center overflow-hidden text-ellipsis text-2xl p-2 cursor-pointer`}
-            >
-              <span className={`rounded-[50%] shadow p-4 scale-95 hover:scale-105`} style={{ background: `${category.color}30`, color: `${category.color}` }}>
-                <DynamicIcon name={category.icon}></DynamicIcon>
-              </span>
-              <span className='text-sm md:text-base overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full'>
-                {category.name}
-              </span>
-            </button>
-          ))
-        }
-      </div>
-    )
-  }
-
   return (
-    <div className="pb-6 px-2 space-y-4 md:space-y-8">
-      <div className="flex flex-col justify-center md:justify-between md:flex-row items-center flex-wrap">
-        <h1 className="text-2xl font-semibold">Categories</h1>
-      </div>
-      <div className='max-w-3xl m-auto'>
-        <div className='flex flex-col-reverse gap-2 md:flex-row justify-center md:justify-between items-center md:items-baseline flex-wrap-reverse w-full px-4 md:mb-2'>
-          <TabsComponent options={TransactionTypesWithoutBalanceOptions} value={transactionType} onChange={handleChangeTransactionType} />
-          <ActionButton label='Add category' icon={GrAdd} action={createCategory}></ActionButton>
+    <div className="pb-6">
+      <HeaderComponent isSticky={isSticky}>
+        <div className='w-full flex flex-col md:flex-row items-center justify-between'>
+          <TitleComponent>Categories</TitleComponent>
         </div>
-        <div className="bg-white p-4 mb-4 rounded-xl shadow">
-          <CategoryList />
+        <div className='flex flex-col-reverse gap-2 md:flex-row justify-center md:justify-between items-center md:items-baseline flex-wrap-reverse w-full px-4 md:mb-1 max-w-3xl m-auto'>
+          <TabsComponent options={TransactionTypesWithoutBalanceOptions} value={transactionType} onChange={handleChangeTransactionType} />
+          {
+            width >= 448 &&
+            <ActionButton label='Add category' icon={FaPlus} isMobileDesign={width < 448} action={createCategory}></ActionButton>
+          }
+        </div>
+      </HeaderComponent>
+      <div className='max-w-3xl px-2 m-auto'>
+        <div className="bg-white dark:bg-gray-950/95 dark:border-1 dark:border-gray-700 p-4 mb-4 rounded-xl shadow">
+          <CategoryList categories={categories} onEdit={editCategory} />
         </div>
       </div>
 
       {/* Modal with Form */}
       {isModalOpen && (
         <div
-          className="fixed inset-0 bg-[rgba(0,0,0,0.6)] bg-opacity-50 flex justify-center items-center z-50"
+          className="fixed h-full inset-0 bg-[rgba(0,0,0,0.6)] bg-opacity-50 flex justify-center items-center z-50"
           onClick={handleOverlayClick}
         >
           <ModalComponent onClose={() => {
@@ -113,6 +102,13 @@ const CategoriesPage = () => {
           </ModalComponent>
         </div>
       )}
+      {/* Mobile button add */}
+      {
+        width < 448 &&
+        <div className='fixed bottom-5 right-5'>
+          <ActionButton label='Add category' icon={FaPlus} isMobileDesign={width < 448} action={createCategory}></ActionButton>
+        </div>
+      }
     </div>
   );
 }

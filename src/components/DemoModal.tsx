@@ -8,8 +8,8 @@ interface Props {
 const DemoModal = ({ onClose }: Props) => {
   const [dontShowAgain, setDontShowAgain] = useState(false);
 
-  const handleCheckboxChange = (e) => {
-    setDontShowAgain(e.target.checked);
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDontShowAgain(event.target.checked);
   };
 
   const handleSubmit = () => {

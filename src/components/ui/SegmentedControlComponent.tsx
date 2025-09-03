@@ -17,7 +17,7 @@ export const SegmentedControlComponent: React.FC<SegmentedControlProps> = ({
   onChange,
 }) => {
   return (
-    <div className="inline-flex bg-gray-200 rounded-full p-1 text-sm">
+    <div className="inline-flex bg-gray-200 dark:bg-neutral-700 rounded-full p-1 text-sm dark:border-gray-700/50 dark:border-1">
       {options.map((option) => {
         const active = value === option.value;
         return (
@@ -26,8 +26,9 @@ export const SegmentedControlComponent: React.FC<SegmentedControlProps> = ({
             onClick={() => onChange(option.value)}
             className={`px-4 py-2 rounded-full transition-colors cursor-pointer
               ${active
-                ? "bg-white text-blue-800/70 shadow"
-                : "text-gray-600 hover:bg-gray-300"}
+              // dark:bg-neutral-500/70
+                ? "bg-white dark:bg-blue-800/70 dark:border-1 dark:border-sky-700 text-blue-800/70 dark:text-white shadow"
+                : "text-gray-600 hover:bg-gray-300 dark:hover:text-white dark:text-gray-400 dark:hover:bg-transparent "}
             `}
           >
             {option.label}

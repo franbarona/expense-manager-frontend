@@ -1,9 +1,10 @@
 import { useCategories } from "../context/CategoriesContext";
 import type { Transaction } from "../types/types";
-import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
+import { FaRegEdit } from 'react-icons/fa';
 import DynamicIcon from "./ui/DynamicIcon";
 import { formatNumber } from "../utils/transforms";
 import { useWindowSize } from "../context/WindowSizeContext";
+import { FaRegTrashCan } from "react-icons/fa6";
 
 interface Props {
   transaction: Transaction;
@@ -17,7 +18,7 @@ const TransactionItem = ({ transaction, showCategoryIcon = false, onEdit, onDele
   const { width } = useWindowSize();
 
   return (
-    <li className="flex">
+    <li className="flex group">
       <div className="w-full flex justify-between items-center">
         <div className="flex flex-1/2 gap-3 overflow-hidden">
           {showCategoryIcon && (
@@ -32,31 +33,31 @@ const TransactionItem = ({ transaction, showCategoryIcon = false, onEdit, onDele
             </span>
           )}
           <div className="flex flex-col">
-            <span className={`font-normal truncate overflow-hidden`} style={{width: `${width/3}px`}}>{transaction.name}</span>
+            <span className={`font-normal truncate overflow-hidden dark:text-white`} style={{ width: `${width / 3}px` }}>{transaction.name}</span>
             <span className="text-sm text-gray-400">{transaction.date}</span>
           </div>
         </div>
-        <div className="flex flex-1/2 justify-end items-center gap-2">
-          <span className={`font-normal ${transaction.amount > 0 ? 'text-green-900' : 'text-red-800'}`}>
+        <div className="flex flex-1/2 justify-end items-center gap-4">
+          <span className={`font-normal ${transaction.amount > 0 ? 'text-green-900 dark:text-green-500/85' : 'text-red-800 dark:text-rose-500'}`}>
             {formatNumber(transaction.amount, 2)}$
           </span>
           <div className="flex gap-2 lg:gap-4 ">
             {onEdit && (
               <button
                 onClick={onEdit}
-                className="text-zinc-700 text-base font-semibold rounded cursor-pointer flex justify-center items-center md:border md:px-3 md:py-1 gap-1 hover:bg-gray-200"
+                className="text-xl rounded-2xl p-2 cursor-pointer text-zinc-800 dark:text-white hover:bg-neutral-300 opacity-30 dark:opacity-80 group-hover:opacity-100 transition-opacity"
               >
                 <FaRegEdit />
-                <span className="hidden lg:block">Edit</span>
+                {/* <span className="hidden lg:block">Edit</span> */}
               </button>
             )}
             {onDelete && (
               <button
                 onClick={onDelete}
-                className="text-red-700 text-base font-semibold rounded cursor-pointer flex justify-center items-center md:border md:px-3 md:py-1 gap-1 hover:bg-red-100"
+                className="text-xl rounded-2xl p-2 cursor-pointer text-zinc-800 dark:text-white hover:bg-neutral-300 opacity-30 dark:opacity-80 group-hover:opacity-100 transition-opacity"
               >
-                <FaRegTrashAlt />
-                <span className="hidden lg:block">Delete</span>
+                <FaRegTrashCan />
+                {/* <span className="hidden lg:block">Delete</span> */}
               </button>
             )}
           </div>

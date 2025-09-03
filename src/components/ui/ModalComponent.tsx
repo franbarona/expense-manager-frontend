@@ -1,4 +1,4 @@
-import { GrClose } from "react-icons/gr";
+import { FaXmark } from "react-icons/fa6";
 
 interface ModalProps {
   onClose: () => void;
@@ -15,10 +15,9 @@ export const ModalComponent: React.FC<ModalProps> = ({ onClose, showCloseButton 
           onClick={onClose}
           className="absolute top-4 right-4 hover:text-blue-950 text-lg cursor-pointer"
         >
-          <GrClose />
+          <FaXmark />
         </button>
       }
-
       {children}
     </div>
   );

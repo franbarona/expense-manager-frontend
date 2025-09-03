@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Transaction } from '../types/types';
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import { FaAngleUp, FaAngleDown } from 'react-icons/fa6';
 import { type TransactionType } from '../enums/enums';
 import TransactionItem from './TransactionItem';
 import { useCategories } from '../context/CategoriesContext';
@@ -23,7 +23,7 @@ const TransactionListByCategories = ({ transactions, transactionType, onEdit, on
       {
         !transactionType
           ? ' transactions '
-          : transactionType
+          : ` ${transactionType} `
       }
       added yet.</p>;
   }
@@ -62,7 +62,7 @@ const TransactionListByCategories = ({ transactions, transactionType, onEdit, on
   return (
     <div className="space-y-4">
       <div className='flex flex-col md:flex-row justify-center md:justify-between items-center md:items-baseline mb-2 gap-2'>
-        <h2 className='text-sm md:text-lg capitalize'>{
+        <h2 className='text-sm md:text-lg capitalize dark:text-white'>{
           !transactionType
             ? 'Transactions'
             : transactionType + 's'
@@ -70,13 +70,13 @@ const TransactionListByCategories = ({ transactions, transactionType, onEdit, on
         <div className="flex justify-center md:justify-end gap-2">
           <button
             onClick={handleExpandAll}
-            className="text-sm text-gray-400 px-3 py-1 rounded hover:bg-gray-300 cursor-pointer"
+            className="text-sm text-gray-400 px-3 py-1 rounded hover:bg-gray-300 dark:hover:bg-gray-700 cursor-pointer"
           >
             Expand All
           </button>
           <button
             onClick={handleCollapseAll}
-            className="text-sm bg-gray-200 px-3 py-1 rounded hover:bg-gray-300 cursor-pointer"
+            className="text-sm bg-gray-200 dark:bg-gray-500 px-3 py-1 rounded hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer"
           >
             Collapse All
           </button>
@@ -91,29 +91,29 @@ const TransactionListByCategories = ({ transactions, transactionType, onEdit, on
         const isExpanded = expandedCategories[categoryName];
 
         return (
-          <div key={categoryName} className="shadow-lg rounded-xl overflow-hidden">
+          <div key={categoryName} className="shadow-lg rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-950 dark:border-1 dark:border-gray-700">
             <button
               onClick={() => toggleCategory(categoryName)}
-              className="w-full text-left p-3 bg-gray-50 flex justify-between items-center font-medium cursor-pointer"
+              className="w-full text-left p-3 flex justify-between items-center font-medium cursor-pointer"
             >
               <span className={`inline-flex items-center gap-2 rounded`}>
                 <span className={`rounded-[50%] text-2xl p-2`} style={{ background: `${transactionCategory.color}20`, color: `${transactionCategory.color}` }}>
                   <DynamicIcon name={transactionCategory.icon}></DynamicIcon>
                 </span>
-                <span className='font-medium'>
+                <span className='font-medium dark:text-white'>
                   {categoryName} ({items.length})
                 </span>
               </span>
               <div className='flex gap-2 justify-center items-center flex-nowrap'>
-                <span className={`flex justify-center items-center gap-2 ${total > 0 ? 'text-green-900' : 'text-red-800'}`}>{formatNumber(total, 2)}$</span>
-                <span>{isExpanded ? <IoIosArrowUp /> : <IoIosArrowDown />}</span>
+                <span className={`flex justify-center items-center gap-2 ${total > 0 ? 'text-green-900 dark:text-green-500/85' : 'text-red-800 dark:text-rose-500'}`}>{formatNumber(total, 2)}$</span>
+                <span className='dark:text-white'>{isExpanded ? <FaAngleUp /> : <FaAngleDown />}</span>
               </div>
             </button>
 
             {isExpanded && (
-              <div className="p-3 space-y-2">
+              <div className="bg-neutral-100 dark:bg-blue-950/10">
                 {items.map((item, index) => (
-                  <div key={index} className={`pb-1 ${(index !== items.length - 1) ? 'border-b border-gray-200 pb-2' : ''}`}>
+                  <div key={index} className={`px-3 py-2 pb-1 cursor-pointer hover:bg-neutral-200 dark:hover:bg-blue-950/20 ${(index !== items.length - 1) ? 'border-b border-gray-200 dark:border-gray-700 pb-2' : ''}`}>
                     <TransactionItem
                       key={item.id}
                       transaction={item}

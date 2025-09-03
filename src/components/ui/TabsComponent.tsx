@@ -27,8 +27,8 @@ export const TabsComponent: React.FC<TabsProps> = ({
             onClick={() => onChange(option.value)}
             className={`transition-colors cursor-pointer font-semibold text-lg
               ${active
-                ? "border-b-2 border-blue-800/80"
-                : "text-neutral-400 hover:text-neutral-800"}
+                ? "border-b-2 dark:text-white border-blue-800/70 dark:border-sky-700"
+                : "text-neutral-400  hover:text-neutral-800 dark:hover:text-neutral-50"}
             `}
           >
             {option.label}

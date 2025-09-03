@@ -9,6 +9,7 @@ import {
 } from "react";
 import type { Category } from "../types/types";
 import { mockCategories } from "../mocks/mockCategories";
+// import { getCategories } from "../services/api";
 
 // 2. Define el tipo del contexto
 interface CategoriesContextType {
@@ -23,6 +24,21 @@ const CategoriesContext = createContext<CategoriesContextType | undefined>(undef
 export const CategoriesProvider = ({ children }: { children: ReactNode }) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isInitialized, setIsInitialized] = useState(false); // 🔑
+
+  // useEffect(() => {
+  //   fetchCategories();
+  // }, []);
+
+  // const fetchCategories = async () => {
+  //   // setLoading(true);
+  //   try {
+  //     const data = await getCategories(); //Get from bbdd
+  //     setCategories(data);
+  //   } finally {
+  //     // setLoading(false);
+  //   }
+  // };
+
 
   useEffect(() => {
     const stored = localStorage.getItem("categories");

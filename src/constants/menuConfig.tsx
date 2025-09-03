@@ -1,4 +1,4 @@
-import { BiBarChartAlt2 } from 'react-icons/bi';
+// import { BiBarChartAlt2 } from 'react-icons/bi';
 import { GrList } from 'react-icons/gr';
 import { LuArrowDownUp } from 'react-icons/lu';
 import { PiSquaresFourFill } from 'react-icons/pi';
