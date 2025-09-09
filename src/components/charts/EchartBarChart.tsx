@@ -20,18 +20,18 @@ const EchartBarChart = ({ data }: Props) => {
   const series = Array.from({ length: data.length ? Object.keys(data[0])?.length - 1 : 0 }, () => ({
     type: 'bar',
     itemStyle: {
-      borderRadius: [5, 5, 0, 0], // Bordes redondeados solo en la parte superior
-      shadowBlur: 5, // Desenfoque de la sombra
+      borderRadius: [5, 5, 0, 0], // Rounded borders on top
+      shadowBlur: 5, // Blur
       shadowColor: 'rgba(0, 0, 0, 0.1)',
-      shadowOffsetX: 5, // Desplazamiento de la sombra en el eje X
-      shadowOffsetY: 5, // Desplazamiento de la sombra en el eje Y
+      shadowOffsetX: 5, // Shadow X
+      shadowOffsetY: 5, // Shadow Y
     },
   }));
 
   const option = {
     grid: {
-      left: '45px', // o un número mayor si los números son muy largos
-      right: '5px', // o un número mayor si los números son muy largos
+      left: '45px',
+      right: '5px',
     },
     tooltip: {},
     legend: {
@@ -52,7 +52,7 @@ const EchartBarChart = ({ data }: Props) => {
       dimensions,
       source: data
     },
-    color: ['#768FD6', '#E3BBED'], // Colores para las series
+    color: ['#768FD6', '#E3BBED'], // Theme colors for series
     xAxis: { type: 'category' },
     yAxis: {},
     series
