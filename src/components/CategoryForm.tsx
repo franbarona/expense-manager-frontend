@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import type { Category } from '../types/types';
-import { TransactionTypeEnum, type TransactionType } from '../enums/enums';
-import { ColorPickerComponent } from './ui/ColorPickerComponent';
-import { IconPickerComponent } from './ui/IconPickerComponent';
+import { type TransactionType } from '../enums/enums';
 import DynamicIcon from './ui/DynamicIcon';
+import { TabsComponent } from './ui/TabsComponent';
+import { CATEGORY_ICON_LIST, TAILWIND_COLORS_600, TransactionTypesWithoutBalanceOptions } from '../constants/constants';
+import { ActionButton } from './ui/ActionButtonComponent';
+import InputComponent from './ui/InputComponent';
+import PickerComponent from './ui/PickerComponent';
 
 interface Props {
   onSubmit: (category: Category) => void;
@@ -14,23 +17,21 @@ interface Props {
 }
 
 const CategoryForm = ({ onSubmit, initialCategory, settedTransactionType }: Props) => {
-  const [colorSelectorOpen, setColorSelectorOpen] = useState<boolean>(false);
-  const [iconSelectorOpen, setIconSelectorOpen] = useState<boolean>(false);
-
   const [formData, setFormData] = useState({
     name: initialCategory?.name || '',
-    icon: initialCategory?.icon || undefined,
-    color: initialCategory?.color || undefined,
+    icon: initialCategory?.icon || '',
+    color: initialCategory?.color || '',
     type: settedTransactionType
   });
 
   const resetForm = () => {
-    setFormData({
+    setFormData(prev => ({
+      ...prev,
       name: '',
-      icon: undefined,
-      color: undefined,
+      icon: '',
+      color: '',
       type: settedTransactionType,
-    });
+    }));
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,6 +42,13 @@ const CategoryForm = ({ onSubmit, initialCategory, settedTransactionType }: Prop
     }));
   };
 
+  const handleChangeTransactionType = (value: string | undefined) => {
+    setFormData(prev => ({
+      ...prev,
+      type: value as TransactionType,
+    }));
+  }
+
   const isValid = () => {
     return (
       formData.name.trim() !== '' &&
@@ -50,13 +58,17 @@ const CategoryForm = ({ onSubmit, initialCategory, settedTransactionType }: Prop
   };
 
   const handleChangeColor = (color: string) => {
-    formData.color = color;
-    setColorSelectorOpen(false);
+    setFormData(prev => ({
+      ...prev,
+      color: color
+    }));
   };
 
   const handleChangeIcon = (icon: string) => {
-    formData.icon = icon;
-    setIconSelectorOpen(false);
+    setFormData(prev => ({
+      ...prev,
+      icon: icon
+    }));
   }
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -76,91 +88,24 @@ const CategoryForm = ({ onSubmit, initialCategory, settedTransactionType }: Prop
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className='mb-5 flex justify-center gap-[20%]'>
-        {Object.values(TransactionTypeEnum).map((transType) => (
-          <button
-            type='button'
-            key={transType}
-            onClick={() => {
-              if (formData.type !== transType) {
-                setFormData(prev => ({
-                  ...prev,
-                  type: transType as TransactionType,
-                  category: '',
-                }));
-              }
-            }}
-            className={`cursor-pointer text-lg ${formData.type === transType ? 'border-b-2 border-blue-800' : ''}`}
-          >
-            <span className='capitalize'>
-              {transType}
-            </span>
-          </button>
-        ))}
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <TabsComponent options={TransactionTypesWithoutBalanceOptions} value={formData.type} onChange={handleChangeTransactionType} />
+      <div className='flex gap-5 justify-between items-end'>
+        <div className='w-full'>
+          <InputComponent name='name' type='text' value={formData.name} placeholder='name' onChange={handleChange} />
+        </div>
+        <span className={`rounded-full text-3xl p-2`} style={{ background: `${formData?.color}20`, color: `${formData?.color}`, border: `1px solid ${formData?.color}30` }}>
+          <DynamicIcon name={formData?.icon}></DynamicIcon>
+        </span>
       </div>
 
-      <div>
-        <label className="block mb-1 text-blue-900">Name*</label>
-        <input
-          name="name"
-          type="text"
-          value={formData.name}
-          onChange={handleChange}
-          className="w-full border rounded p-2"
-          required
-        />
-      </div>
-
-      <div>
-        <label className="block mb-1 text-blue-900">Icon*</label>
-        {
-          iconSelectorOpen &&
-          <div className='max-h-50 overflow-auto'>
-            <IconPickerComponent value={formData.icon} onChange={handleChangeIcon} />
-          </div>
-        }
-        {
-          !iconSelectorOpen &&
-          <div className='w-full border rounded p-2 flex justify-around cursor-pointer' onClick={() => setIconSelectorOpen(true)}>
-            {formData.icon && <div className='text-2xl'><DynamicIcon name={formData.icon} /></div>}
-            {!formData.icon && <span className='opacity-50'>Select an icon</span>}
-          </div>
-        }
-      </div>
-
-      <div>
-        <label className="block mb-1 text-blue-900">Color*</label>
-        {
-          colorSelectorOpen &&
-          <ColorPickerComponent value={formData.color} onChange={handleChangeColor} />
-        }
-        {
-          !colorSelectorOpen &&
-          <div className='w-full border rounded p-2 flex justify-around cursor-pointer' onClick={() => setColorSelectorOpen(true)}>
-            {
-              formData.color &&
-              <div className={`w-full h-8 rounded-lg transition transform `} style={{ backgroundColor: formData.color }}></div>
-            }
-            {
-              !formData.color && <span className='opacity-50'>Select a color</span>
-            }
-          </div>
-        }
-      </div>
+      {/* Icon picker */}
+      <PickerComponent label='Symbol' type='icons' selectedValue={formData.icon} options={CATEGORY_ICON_LIST} onSelect={handleChangeIcon} columns={6} />
+      {/* Color picker */}
+      <PickerComponent label='Color' type='colors' selectedValue={formData.color} options={Object.values(TAILWIND_COLORS_600)} onSelect={handleChangeColor} columns={8} />
 
       <div className='flex justify-center gap-2'>
-        <button
-          type="submit"
-          disabled={!isValid()}
-          className={
-            `py-2 px-6 font-medium text-white rounded w-fit bg-blue-800 ${isValid()
-              ? 'cursor-pointer'
-              : 'opacity-50 cursor-not-allowed'
-            }`}
-        >
-          {initialCategory ? 'Update ' : 'Add '} category
-        </button>
+        <ActionButton label={(initialCategory ? 'Update ' : 'Add ') + 'category'} disabled={!isValid()}></ActionButton>
       </div>
     </form>
   );

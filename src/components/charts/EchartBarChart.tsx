@@ -29,6 +29,10 @@ const EchartBarChart = ({ data }: Props) => {
   }));
 
   const option = {
+    grid: {
+      left: '45px', // o un número mayor si los números son muy largos
+      right: '5px', // o un número mayor si los números son muy largos
+    },
     tooltip: {},
     legend: {
       bottom: 0,
@@ -55,8 +59,8 @@ const EchartBarChart = ({ data }: Props) => {
   };
 
   return (
-    <div className='w-full h-full mx-0 my-auto' ref={containerRef}>
-      <ReactECharts option={option} />
+    <div className='w-full h-full my-auto' ref={containerRef}>
+      <ReactECharts option={option} style={{ width: '100%' }} />
     </div>
   );
 };

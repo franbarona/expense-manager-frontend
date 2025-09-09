@@ -8,7 +8,6 @@ const useModal = () => {
 
   const handleOverlayClick = (e: MouseEvent<HTMLDivElement>): void => {
     if (e.target === e.currentTarget) {
-      console.log("ENTROOO!")
       closeModal();
     }
   };

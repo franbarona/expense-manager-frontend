@@ -24,6 +24,7 @@ export const TabsComponent: React.FC<TabsProps> = ({
         return (
           <button
             key={uuidv4()}
+            type="button"
             onClick={() => onChange(option.value)}
             className={`transition-colors cursor-pointer font-semibold text-lg
               ${active

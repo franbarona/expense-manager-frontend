@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
-import { filterTransactionsByType, formatNumber, groupExpensesByDayOfTheWeek, groupTransactionsByCategory, groupTransactionsByMonthAndType, mapToPieChartData, orderTransactionByRecentDate } from "../utils/transforms";
+import { filterTransactionsByType, groupExpensesByDayOfTheWeek, groupTransactionsByCategory, groupTransactionsByMonthAndType, mapToPieChartData, orderTransactionByRecentDate } from "../utils/transforms";
 import { type TimeFilter } from "../utils/dateUtils";
 import TransactionList from "../components/TransactionList";
 import EchartPieChart from "../components/charts/EchartPieChart";
@@ -17,6 +16,7 @@ import { HeaderComponent } from "../components/ui/HeaderComponent";
 import PeriodNavigationControlComponent from "../components/ui/PeriodNavigationControlComponent";
 import { useStickyOnScroll } from "../hooks/useStickyOnScroll";
 import { TitleComponent } from "../components/ui/TitleComponent";
+import KpiCard from "../components/KpiCard";
 
 export default function DashboardPage () {
   const { transactions } = useTransactions();
@@ -30,7 +30,7 @@ export default function DashboardPage () {
   const isSticky = useStickyOnScroll();
 
   return (
-    <div className="pb-6 px-2 space-y-8">
+    <div className="pb-6 space-y-2 md:space-y-5">
       <HeaderComponent isSticky={isSticky}>
         <TitleComponent>Dashboard</TitleComponent>
         {/* Section Time Filter */}
@@ -39,26 +39,14 @@ export default function DashboardPage () {
         <PeriodNavigationControlComponent timeFilter={timeFilter} period={period} goPrev={goPrev} goNext={goNext} />
       </HeaderComponent>
       {/* KPIs */}
-      <div className="grid grid-cols-4 xl:grid-cols-12 gap-4">
+      <div className="grid grid-cols-12 gap-2 md:gap-5 px-2 md:px-5">
         {
-          kpiCardsData.map((card) => (
-            <div key={card.name} className='bg-white dark:bg-gray-950/95 dark:border-1 dark:border-gray-700 rounded-xl shadow p-6 flex flex-col gap-4 justify-center col-span-4 xl:col-span-4'>
-              <div className='flex justify-between gap-5 items-center'>
-                <TitleComponent extraClass="text-lg">{card.name}</TitleComponent>
-                <div className={`rounded-xl flex justify-center items-center gap-2 px-4 text-sm ${card.variancePercentage > 0 ? 'bg-green-100 text-green-900 dark:bg-emerald-200 dark:tex-emerald-600' : 'bg-rose-100 text-red-900 dark:bg-rose-200 dark:text-rose-600'}`}>
-                  {card.variancePercentage > 0 ? <FaArrowTrendUp /> : <FaArrowTrendDown />}
-                  {formatNumber(card.variancePercentage, 1)}%
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <h2 className='text-2xl font-semibold dark:text-white'>{formatNumber(card.amount, 0)}$</h2>
-              </div>
-              <span className="text-gray-400 text-sm">{card.variance > 0 && '+'}{formatNumber(card.variance, 1)} compared with prev. {timeFilter}</span>
-            </div>
+          kpiCardsData.map((card, index) => (
+            <KpiCard key={index} card={card} timeFilter={timeFilter} />
           ))
         }
       </div>
-      <div className="grid grid-cols-12 gap-4" >
+      <div className="grid grid-cols-12 gap-2 md:gap-5 px-2 md:px-5" >
         <div className="col-span-12 md:col-span-7 xl:col-span-8">
           <div className="bg-white dark:bg-gray-950/95 dark:border-1 dark:border-gray-700 p-4 rounded-xl shadow">
             <TitleComponent extraClass="text-lg">Incomes vs Expenses by month</TitleComponent>
@@ -72,7 +60,7 @@ export default function DashboardPage () {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-12 gap-4" >
+      <div className="grid grid-cols-12 gap-2 md:gap-5 px-2 md:px-5" >
         <div className="col-span-12 md:col-span-7 xl:col-span-6">
           <div className="bg-white dark:bg-gray-950/95 dark:border-1 dark:border-gray-700 p-4 rounded-xl shadow">
             <TitleComponent extraClass="text-lg">Recent transactions of {period.getFullYear()}</TitleComponent>

@@ -16,9 +16,19 @@ export const filterTransactionsByType = (data: Transaction[], transactionType: T
   return data.filter(transaction => transaction.type === transactionType);
 };
 
-export const filterCategoriesByType = (data: Category[], transactionType: TransactionType): Category[] => {
+export const filterCategoriesByType = (data: Category[], transactionType: TransactionType | undefined): Category[] => {
+  if (!transactionType) return data;
   return data.filter(category => category.type === transactionType);
 };
+
+export const getStoredCategories = () => {
+  const stored = localStorage.getItem("categories");
+  if (stored) {
+    return JSON.parse(stored);
+  } else {
+    return [];
+  }
+}
 
 export const groupTransactionsByCategory = (data: Transaction[]): Record<string, number> => {
   return data
@@ -29,11 +39,11 @@ export const groupTransactionsByCategory = (data: Transaction[]): Record<string,
 };
 
 export const mapToPieChartData = (groupedData: Record<string, number>, categories: Category[]): EChartPieChartData[] => {
-  return Object.entries(groupedData).map(([name, value]) => ({
-    name,
-    value: transformNumberToPositive(value),
+  return Object.entries(groupedData).map(([categoryId, value]) => ({
+    name: categories.find(category => category.id === categoryId)?.name || 'undefined',
+    value: value,
     itemStyle: {
-      color: categories.find(c => c.name === name)?.color || '#000' // Definir color por defecto en caso de que falte
+      color: categories.find(category => category.id === categoryId)?.color || '#000'
     }
   }));
 };

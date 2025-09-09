@@ -25,7 +25,7 @@ const SidebarHeader = ({ isExpanded }: Props) => {
 const SidebarBottom = ({ isExpanded }: Props) => {
   return (
     <div className="space-y-2">
-      <div className={`flex items-center p-2 rounded justify-start text-gray-600 dark:text-gray-50 hover:bg-indigo-600/10 dark:hover:bg-neutral-700/70 cursor-pointer ${isExpanded ? "px-4 gap-3 rounded-xl" : "px-2"}`}>
+      <div className={`flex items-center p-2 rounded justify-start text-gray-600 dark:text-gray-50 opacity-50 cursor-default ${isExpanded ? "px-4 gap-3 rounded-xl" : "px-2"}`}>
         <div className="w-6 flex justify-center items-center">
           <TbLogout2 />
         </div>
@@ -74,7 +74,7 @@ const Sidebar = ({ isExpanded, toggleSidebar, extraFuncOnClick }: Props) => {
               className={({ isActive }) =>
                 `flex items-center p-2 rounded justify-start dark:text-gray-50
               ${isExpanded ? "px-4 rounded-xl" : "px-2"}
-              ${isActive ? "text-white font-normal bg-blue-800/70 dark:bg-neutral-500/70" : "text-gray-600 hover:bg-indigo-600/10 dark:hover:bg-neutral-700/70"}
+              ${isActive ? "text-white font-normal bg-blue-800/70 dark:bg-blue-900/90 dark:border-1 dark:border-sky-700" : "text-gray-600 hover:bg-indigo-600/10 dark:hover:bg-neutral-700/50"}
               `}
             >
               {/* Icon container with fixed width */}
@@ -116,7 +116,7 @@ const Sidebar = ({ isExpanded, toggleSidebar, extraFuncOnClick }: Props) => {
         >
           <div
             className={`
-              p-1 bg-blue-800/70 dark:bg-neutral-500/95 text-white rounded-full transition-transform duration-600 easy-in-out
+              p-1 bg-blue-800/70 hover:scale-105 dark:bg-blue-900/90 dark:border-1 dark:border-sky-700 text-white rounded-full transition-transform duration-600 easy-in-out
               ${arrowRotation}
             `}
           >

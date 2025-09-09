@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import ReactECharts from 'echarts-for-react';
 import type { EChartPieChartData } from '../../types/types';
-import { formatNumber } from '../../utils/transforms';
+import { formatNumber, transformNumberToPositive } from '../../utils/transforms';
 import { useTheme } from '../../context/ThemeContext';
 
 interface Props {
@@ -9,6 +9,8 @@ interface Props {
 }
 
 const EchartPieChart = ({ data }: Props) => {
+  const parsedData = structuredClone(data);
+  parsedData.forEach(d => d.value = transformNumberToPositive(d.value));
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState<number>(0);
   const total = data.reduce((acc, item) => acc + item.value, 0);
@@ -52,7 +54,9 @@ const EchartPieChart = ({ data }: Props) => {
       width: 200,
       height: 200,
       textStyle: {
-        color: textColor
+        color: textColor,
+        fontSize: 15,
+        fontFamily: "Poppins, sans-serif"
       }
     },
     graphic: [
@@ -108,7 +112,7 @@ const EchartPieChart = ({ data }: Props) => {
           show: false
         },
         right: '50%',
-        data,
+        data: parsedData,
         padding: [10, 10, 10, 10]
       }
     ]

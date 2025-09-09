@@ -67,7 +67,7 @@ const CategoriesPage = () => {
   return (
     <div className="pb-6">
       <HeaderComponent isSticky={isSticky}>
-        <div className='w-full flex flex-col md:flex-row items-center justify-between'>
+        <div className='w-full flex flex-col md:flex-row items-center justify-between space-y-2'>
           <TitleComponent>Categories</TitleComponent>
         </div>
         <div className='flex flex-col-reverse gap-2 md:flex-row justify-center md:justify-between items-center md:items-baseline flex-wrap-reverse w-full px-4 md:mb-1 max-w-3xl m-auto'>
@@ -80,27 +80,20 @@ const CategoriesPage = () => {
       </HeaderComponent>
       <div className='max-w-3xl px-2 m-auto'>
         <div className="bg-white dark:bg-gray-950/95 dark:border-1 dark:border-gray-700 p-4 mb-4 rounded-xl shadow">
-          <CategoryList categories={categories} onEdit={editCategory} />
+          <CategoryList categories={categories} transactionType={transactionType} onEdit={editCategory} />
         </div>
       </div>
 
       {/* Modal with Form */}
       {isModalOpen && (
-        <div
-          className="fixed h-full inset-0 bg-[rgba(0,0,0,0.6)] bg-opacity-50 flex justify-center items-center z-50"
-          onClick={handleOverlayClick}
-        >
-          <ModalComponent onClose={() => {
-            closeModal();
-          }}>
-            <CategoryForm
-              onSubmit={categoryToEdit ? handleEditCategory : handleCreateCategory}
-              onClose={() => { closeModal(); setCategoryToEdit(null); }}
-              initialCategory={categoryToEdit}
-              settedTransactionType={transactionType || 'expense'}
-            />
-          </ModalComponent>
-        </div>
+        <ModalComponent onClose={() => closeModal()} handleOverlayClick={handleOverlayClick}>
+          <CategoryForm
+            onSubmit={categoryToEdit ? handleEditCategory : handleCreateCategory}
+            onClose={() => { closeModal(); setCategoryToEdit(null); }}
+            initialCategory={categoryToEdit}
+            settedTransactionType={transactionType || 'expense'}
+          />
+        </ModalComponent>
       )}
       {/* Mobile button add */}
       {

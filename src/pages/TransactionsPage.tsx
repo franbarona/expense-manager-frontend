@@ -92,7 +92,7 @@ const TransactionsPage = () => {
   return (
     <div className="pb-6">
       <HeaderComponent isSticky={isSticky}>
-        <div className='w-full flex flex-col md:flex-row items-center justify-between'>
+        <div className='w-full flex flex-col md:flex-row items-center justify-between space-y-2'>
           <TitleComponent>Transactions</TitleComponent>
           {/* Section Time Filter */}
           <SegmentedControlComponent
@@ -122,7 +122,6 @@ const TransactionsPage = () => {
         </div>
       }
 
-
       <div className='max-w-3xl m-auto'>
         <TransactionListByCategories
           transactions={filteredTransactions}
@@ -135,22 +134,14 @@ const TransactionsPage = () => {
       {/* Modal with Form */}
       {
         isModalOpen && (
-          <div
-            className="fixed h-full inset-0 bg-[rgba(0,0,0,0.6)] bg-opacity-50 flex justify-center items-center z-50"
-            onClick={handleOverlayClick} // Detecta el clic en el overlay
-          >
-            <ModalComponent onClose={() => {
-              closeModal();
-              setTransactionToEdit(null);
-            }}>
-              <TransactionForm
-                onSubmit={transactionToEdit ? handleEditTransaction : handleAddTransaction}
-                onClose={() => { closeModal(); setTransactionToEdit(null); }}
-                initialTransaction={transactionToEdit}
-                settedTransactionType={transactionType || 'expense'}
-              />
-            </ModalComponent>
-          </div>
+          <ModalComponent onClose={() => { closeModal(); setTransactionToEdit(null); }} handleOverlayClick={handleOverlayClick}>
+            <TransactionForm
+              onSubmit={transactionToEdit ? handleEditTransaction : handleAddTransaction}
+              onClose={() => { closeModal(); setTransactionToEdit(null); }}
+              initialTransaction={transactionToEdit}
+              settedTransactionType={transactionType || 'expense'}
+            />
+          </ModalComponent>
         )
       }
       {/* Mobile button add */}

@@ -4,8 +4,8 @@ import { FaAngleUp, FaAngleDown } from 'react-icons/fa6';
 import { type TransactionType } from '../enums/enums';
 import TransactionItem from './TransactionItem';
 import { useCategories } from '../context/CategoriesContext';
-import DynamicIcon from './ui/DynamicIcon';
 import { formatNumber } from '../utils/transforms';
+import CategoryIconFilled from './CategoryIconFilled';
 
 interface Props {
   transactions: Transaction[];
@@ -82,30 +82,25 @@ const TransactionListByCategories = ({ transactions, transactionType, onEdit, on
           </button>
         </div>
       </div>
-      {Object.entries(grouped).map(([categoryName, items]) => {
-        const transactionCategory = categories.find((category) => category.name === categoryName) || {
-          icon: undefined,
-          color: 'bg-gray-100 text-gray-700',
-        };
+      {Object.entries(grouped).map(([categoryId, items]) => {
+        const transactionCategory = categories.find((category) => category.id === categoryId);
         const total = items.reduce((sum, exp) => sum + exp.amount, 0);
-        const isExpanded = expandedCategories[categoryName];
+        const isExpanded = expandedCategories[categoryId];
 
         return (
-          <div key={categoryName} className="shadow-lg rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-950 dark:border-1 dark:border-gray-700">
+          <div key={categoryId} className="shadow-lg rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-950 dark:border-1 dark:border-gray-700">
             <button
-              onClick={() => toggleCategory(categoryName)}
+              onClick={() => toggleCategory(categoryId)}
               className="w-full text-left p-3 flex justify-between items-center font-medium cursor-pointer"
             >
               <span className={`inline-flex items-center gap-2 rounded`}>
-                <span className={`rounded-[50%] text-2xl p-2`} style={{ background: `${transactionCategory.color}20`, color: `${transactionCategory.color}` }}>
-                  <DynamicIcon name={transactionCategory.icon}></DynamicIcon>
-                </span>
+                <CategoryIconFilled category={transactionCategory}/>
                 <span className='font-medium dark:text-white'>
-                  {categoryName} ({items.length})
+                  {transactionCategory?.name} ({items.length})
                 </span>
               </span>
               <div className='flex gap-2 justify-center items-center flex-nowrap'>
-                <span className={`flex justify-center items-center gap-2 ${total > 0 ? 'text-green-900 dark:text-green-500/85' : 'text-red-800 dark:text-rose-500'}`}>{formatNumber(total, 2)}$</span>
+                <span className={`flex justify-center items-center gap-2 ${total > 0 ? 'text-green-900 dark:text-emerald-500' : 'text-red-800 dark:text-rose-600'}`}>{formatNumber(total, 2)}$</span>
                 <span className='dark:text-white'>{isExpanded ? <FaAngleUp /> : <FaAngleDown />}</span>
               </div>
             </button>

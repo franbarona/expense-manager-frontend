@@ -49,20 +49,11 @@ const App: React.FC = () => {
                   </div>
                   {
                     showMobileMenu &&
-                    <div
-                      className="fixed inset-0 bg-[rgba(0,0,0,0.6)] bg-opacity-50 z-50"
-                      onClick={handleOverlayClickMobileMenu} // Detecta el clic en el overlay
-                    >
-                      <ModalComponent onClose={() => {
-                        closeMobileMenu();
-                      }}
-                        showCloseButton={false}
-                      >
-                        <div className={`fixed left-[-16rem] md:left-[0rem] ${showMobileMenu ? 'left-[0rem]' : 'left-[-16rem]'}`}>
-                          <Sidebar isExpanded={isSidebarExpanded} toggleSidebar={toggleSidebar} extraFuncOnClick={closeMobileMenu} />
-                        </div>
-                      </ModalComponent>
-                    </div>
+                    <ModalComponent onClose={() => closeMobileMenu()} handleOverlayClick={handleOverlayClickMobileMenu} showCloseButton={false} specialClass='items-start'>
+                      <div className={`fixed left-[-16rem] md:left-[0rem] ${showMobileMenu ? 'left-[0rem]' : 'left-[-16rem]'}`}>
+                        <Sidebar isExpanded={isSidebarExpanded} toggleSidebar={toggleSidebar} extraFuncOnClick={closeMobileMenu} />
+                      </div>
+                    </ModalComponent>
                   }
 
                   <main className={`flex-1 min-h-[100vh] bg-neutral-100 dark:bg-neutral-950 ml-0 ${isSidebarExpanded ? "lg:ml-64 md:ml-14" : "md:ml-14"}`}>
@@ -75,16 +66,9 @@ const App: React.FC = () => {
                   </main>
                   {
                     isModalOpen &&
-                    <div
-                      className="fixed inset-0 bg-[rgba(0,0,0,0.6)] bg-opacity-50 flex justify-center items-center z-50"
-                      onClick={handleOverlayClick} // Detecta el clic en el overlay
-                    >
-                      <ModalComponent onClose={() => {
-                        closeModal();
-                      }}>
-                        <DemoModal onClose={() => closeModal()} />
-                      </ModalComponent>
-                    </div>
+                    <ModalComponent onClose={() => closeModal()} handleOverlayClick={handleOverlayClick}>
+                      <DemoModal action={() => closeModal()} />
+                    </ModalComponent>
                   }
                 </div>
               </div>

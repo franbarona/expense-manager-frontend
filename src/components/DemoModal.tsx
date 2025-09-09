@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { GoAlert } from "react-icons/go";
+import { ActionButton } from "./ui/ActionButtonComponent";
 
 interface Props {
-  onClose: () => void;
+  action: () => void;
 }
 
-const DemoModal = ({ onClose }: Props) => {
+const DemoModal = ({ action }: Props) => {
   const [dontShowAgain, setDontShowAgain] = useState(false);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,7 +15,7 @@ const DemoModal = ({ onClose }: Props) => {
 
   const handleSubmit = () => {
     if (dontShowAgain) localStorage.setItem("hideDemoModal", "true");
-    onClose();
+    action();
   }
 
   return (
@@ -23,7 +24,6 @@ const DemoModal = ({ onClose }: Props) => {
         <div className="text-5xl text-amber-400">
           <GoAlert />
         </div>
-        {/* <h3 className="text-neutral-600 font-semibold text-sm">ATTENTION</h3> */}
         <h2 className='text-2xl text-center font-semibold text-black'>DEMO MODE</h2>
       </div>
       <div className="space-y-4 text-gray-600">
@@ -44,12 +44,7 @@ const DemoModal = ({ onClose }: Props) => {
       </div>
 
       <div className='flex justify-center gap-2'>
-        <button
-          type="submit"
-          className={`py-2 px-6 font-medium text-white rounded w-fit bg-blue-800 cursor-pointer`}
-        >
-          Accept
-        </button>
+        <ActionButton label="Accept"/>
       </div>
     </form>
   );
