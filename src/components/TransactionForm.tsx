@@ -92,10 +92,12 @@ const TransactionForm = ({ onSubmit, initialTransaction, settedTransactionType }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <TabsComponent options={TransactionTypesWithoutBalanceOptions} value={formData.type} onChange={handleChangeTransactionType} />
+      <div className='mb-4'>
+        <TabsComponent options={TransactionTypesWithoutBalanceOptions} value={formData.type} onChange={handleChangeTransactionType} />
+      </div>
       <InputComponent name='name' type='text' value={formData.name} placeholder='name' onChange={handleChange} />
       <InputComponent name='amount' type='number' value={formData.amount} placeholder='amount' onChange={handleChange} />
-      <PickerComponent label='Category' type='categories' selectedValue={formData.category} options={transactionTypeCategories} onSelect={handleChangeCategorySelected} height={40}/>
+      <PickerComponent label='Category' type='categories' selectedValue={formData.category} options={transactionTypeCategories} onSelect={handleChangeCategorySelected} height={35} />
       <InputComponent name='date' type='date' value={formData.date} placeholder='date' onChange={handleChange} />
       <div className='flex justify-center gap-2'>
         <ActionButton label={`${initialTransaction ? 'Update ' : 'Add '} ${formData.type}`} disabled={!isValid()} action={handleSubmit} />

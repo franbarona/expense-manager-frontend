@@ -11,7 +11,7 @@ interface Props {
   transactions: Transaction[];
   transactionType?: TransactionType;
   onEdit: (transaction: Transaction) => void;
-  onDelete: (id: string) => void;
+  onDelete: (transaction: Transaction) => void;
 }
 
 const TransactionListByCategories = ({ transactions, transactionType, onEdit, onDelete }: Props) => {
@@ -19,7 +19,7 @@ const TransactionListByCategories = ({ transactions, transactionType, onEdit, on
   const { categories } = useCategories();
 
   if (transactions.length === 0) {
-    return <p className="text-gray-300 text-center">No
+    return <p className="text-secondary text-center">No
       {
         !transactionType
           ? ' transactions '
@@ -60,9 +60,9 @@ const TransactionListByCategories = ({ transactions, transactionType, onEdit, on
   }, {});
 
   return (
-    <div className="space-y-4">
+    <div className="md:space-y-4">
       <div className='flex flex-col md:flex-row justify-center md:justify-between items-center md:items-baseline mb-2 gap-2'>
-        <h2 className='text-sm md:text-lg capitalize dark:text-white'>{
+        <h2 className='text-sm md:text-lg capitalize text-primary'>{
           !transactionType
             ? 'Transactions'
             : transactionType + 's'
@@ -70,13 +70,13 @@ const TransactionListByCategories = ({ transactions, transactionType, onEdit, on
         <div className="flex justify-center md:justify-end gap-2">
           <button
             onClick={handleExpandAll}
-            className="text-sm text-gray-400 px-3 py-1 rounded hover:bg-gray-300 dark:hover:bg-gray-700 cursor-pointer"
+            className="text-sm text-secondary bg-secondary px-3 py-1 rounded hover:bg-rose-300 dark:hover:bg-neutral-600 cursor-pointer"
           >
             Expand All
           </button>
           <button
             onClick={handleCollapseAll}
-            className="text-sm bg-gray-200 dark:bg-gray-500 px-3 py-1 rounded hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer"
+            className="text-sm text-secondary bg-secondary px-3 py-1 rounded hover:bg-gray-300 dark:hover:bg-neutral-600 cursor-pointer"
           >
             Collapse All
           </button>
@@ -88,7 +88,7 @@ const TransactionListByCategories = ({ transactions, transactionType, onEdit, on
         const isExpanded = expandedCategories[categoryId];
 
         return (
-          <div key={categoryId} className="shadow-lg rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-950 dark:border-1 dark:border-gray-700">
+          <div key={categoryId} className="shadow-lg md:rounded-xl overflow-hidden bg-surface border-primary">
             <button
               onClick={() => toggleCategory(categoryId)}
               className="w-full text-left p-3 flex justify-between items-center font-medium cursor-pointer"
@@ -106,14 +106,14 @@ const TransactionListByCategories = ({ transactions, transactionType, onEdit, on
             </button>
 
             {isExpanded && (
-              <div className="bg-neutral-100 dark:bg-blue-950/10">
+              <div className="bg-surface-variant">
                 {items.map((item, index) => (
-                  <div key={index} className={`px-3 py-2 pb-1 cursor-pointer hover:bg-neutral-200 dark:hover:bg-blue-950/20 ${(index !== items.length - 1) ? 'border-b border-gray-200 dark:border-gray-700 pb-2' : ''}`}>
+                  <div key={index} className={`px-3 py-2 pb-1 cursor-pointer ${(index !== items.length - 1) ? 'border-b border-[var(--color-border)] pb-2' : ''}`}>
                     <TransactionItem
                       key={item.id}
                       transaction={item}
                       onEdit={() => onEdit(item)}
-                      onDelete={() => onDelete(item.id)}
+                      onDelete={() => onDelete(item)}
                     />
                   </div>
                 ))}

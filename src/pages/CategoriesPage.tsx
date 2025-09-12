@@ -17,14 +17,19 @@ import CategoryForm from '../components/CategoryForm';
 import { HeaderComponent } from '../components/ui/HeaderComponent';
 import CategoryList from '../components/CategoryList';
 import { TitleComponent } from '../components/ui/TitleComponent';
+import { useAlert } from '../context/AlertContext';
+import { ConfirmationComponent } from '../components/ui/ConfirmationComponent';
 
 const CategoriesPage = () => {
   const { categories, setCategories } = useCategories();
   const [categoryToEdit, setCategoryToEdit] = useState<Category | null>(null);
+  const [categoryToDelete, setCategoryToDelete] = useState<Category | null>(null);
   const [transactionType, setTransactionType] = useState<TransactionType | undefined>('expense');
   const { isModalOpen, openModal, closeModal, handleOverlayClick } = useModal();
   const { width } = useWindowSize();
   const isSticky = useStickyOnScroll();
+  const { addAlert } = useAlert();
+  const { isModalOpen: isDeleteModalOpen, openModal: openDeleteModal, closeModal: closeDeleteModal, handleOverlayClick: handleDeleteOverlayClick } = useModal();
 
   // Open modal to create category
   const createCategory = () => {
@@ -36,6 +41,11 @@ const CategoriesPage = () => {
   const editCategory = (category: Category) => {
     setCategoryToEdit(category);
     openModal();
+  }
+
+  const deleteCategory = (category: Category) => {
+    setCategoryToDelete(category);
+    openDeleteModal();
   }
 
   // Create category
@@ -53,6 +63,12 @@ const CategoriesPage = () => {
       setCategories([...newCategories]);
       closeModal();
     }
+  };
+
+  const handleDeleteCategory = (category: Category) => {
+    setCategories(categories.filter(e => e.id !== category?.id));
+    closeDeleteModal();
+    addAlert({ type: 'success', message: `Category "${category?.name}" deleted correctly` })
   };
 
   // Change transactionType 
@@ -78,10 +94,8 @@ const CategoriesPage = () => {
           }
         </div>
       </HeaderComponent>
-      <div className='max-w-3xl px-2 m-auto'>
-        <div className="bg-white dark:bg-gray-950/95 dark:border-1 dark:border-gray-700 p-4 mb-4 rounded-xl shadow">
-          <CategoryList categories={categories} transactionType={transactionType} onEdit={editCategory} />
-        </div>
+      <div className='max-w-3xl p-2 m-auto'>
+        <CategoryList categories={categories} transactionType={transactionType} onEdit={editCategory} />
       </div>
 
       {/* Modal with Form */}
@@ -89,6 +103,7 @@ const CategoriesPage = () => {
         <ModalComponent onClose={() => closeModal()} handleOverlayClick={handleOverlayClick}>
           <CategoryForm
             onSubmit={categoryToEdit ? handleEditCategory : handleCreateCategory}
+            onDelete={deleteCategory}
             onClose={() => { closeModal(); setCategoryToEdit(null); }}
             initialCategory={categoryToEdit}
             settedTransactionType={transactionType || 'expense'}
@@ -101,6 +116,18 @@ const CategoriesPage = () => {
         <div className='fixed bottom-5 right-5'>
           <ActionButton label='Add category' icon={FaPlus} isMobileDesign={width < 448} action={createCategory}></ActionButton>
         </div>
+      }
+      {
+        isDeleteModalOpen && (
+          <ModalComponent onClose={() => closeDeleteModal()} handleOverlayClick={handleDeleteOverlayClick}>
+            <ConfirmationComponent
+              title='Delete Category'
+              message={`Are you sure you want to delete the category "${categoryToDelete?.name}" ? All transactions with this category will appear without category` }
+              onAccept={() => handleDeleteCategory(categoryToDelete)}
+              onCancel={closeDeleteModal}
+            ></ConfirmationComponent>
+          </ModalComponent>
+        )
       }
     </div>
   );

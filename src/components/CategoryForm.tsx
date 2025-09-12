@@ -8,15 +8,17 @@ import { CATEGORY_ICON_LIST, TAILWIND_COLORS_600, TransactionTypesWithoutBalance
 import { ActionButton } from './ui/ActionButtonComponent';
 import InputComponent from './ui/InputComponent';
 import PickerComponent from './ui/PickerComponent';
+import { FaRegTrashAlt } from 'react-icons/fa';
 
 interface Props {
   onSubmit: (category: Category) => void;
+  onDelete: (category: Category) => void;
   onClose: () => void;
   initialCategory?: Category | null;
   settedTransactionType: TransactionType
 }
 
-const CategoryForm = ({ onSubmit, initialCategory, settedTransactionType }: Props) => {
+const CategoryForm = ({ onSubmit, onDelete, initialCategory, settedTransactionType }: Props) => {
   const [formData, setFormData] = useState({
     name: initialCategory?.name || '',
     icon: initialCategory?.icon || '',
@@ -104,8 +106,12 @@ const CategoryForm = ({ onSubmit, initialCategory, settedTransactionType }: Prop
       {/* Color picker */}
       <PickerComponent label='Color' type='colors' selectedValue={formData.color} options={Object.values(TAILWIND_COLORS_600)} onSelect={handleChangeColor} columns={8} />
 
-      <div className='flex justify-center gap-2'>
+      <div className='flex justify-center gap-4'>
         <ActionButton label={(initialCategory ? 'Update ' : 'Add ') + 'category'} disabled={!isValid()}></ActionButton>
+        {
+          initialCategory &&
+          <ActionButton label={'Delete'} style='remove' icon={FaRegTrashAlt} action={() => onDelete(initialCategory)}></ActionButton>
+        }
       </div>
     </form>
   );

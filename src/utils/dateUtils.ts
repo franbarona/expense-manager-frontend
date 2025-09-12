@@ -8,14 +8,20 @@ import {
 
 export type TimeFilter = 'day' | 'week' | 'month' | 'year';
 
+export const getCurrentYear = () => {
+  return new Date().getFullYear();
+}
+
 export function getPeriodLabel (filter: TimeFilter, refDate: Date): string {
   switch (filter) {
     case 'day':
       return format(refDate, 'MMMM d, yyyy');
     case 'week':
-      const start = startOfWeek(refDate, { weekStartsOn: 1 });
-      const end = endOfWeek(refDate, { weekStartsOn: 1 });
-      return `${format(start, 'MMMM d, yyyy')} - ${format(end, 'MMMM d, yyyy')}`;
+      {
+        const start = startOfWeek(refDate, { weekStartsOn: 1 });
+        const end = endOfWeek(refDate, { weekStartsOn: 1 });
+        return `${format(start, 'MMM d, yyyy')} - ${format(end, 'MMM d, yyyy')}`;
+      }
     case 'month':
       return format(refDate, 'MMMM yyyy');
     case 'year':

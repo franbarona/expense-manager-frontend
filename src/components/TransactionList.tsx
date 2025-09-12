@@ -21,7 +21,7 @@ const TransactionList = ({ transactions, limit, onEdit, onDelete }: Props) => {
   return (
     <div className={`p-3 space-y-2`}>
       {transactionsToShow.map((item, index) => (
-        <div key={index} className={`pb-1 ${(index !== transactionsToShow.length - 1) ? 'border-b border-gray-200 pb-2' : ''}`}>
+        <div key={index} className={`pb-1 ${(index !== transactionsToShow.length - 1) ? 'border-b border-[var(--color-border)] pb-2' : ''}`}>
           <TransactionItem
             key={item.id}
             transaction={item}

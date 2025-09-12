@@ -14,7 +14,7 @@ const PeriodNavigationControlComponent: React.FC<PeriodNavigationControlProps> =
   const periodLabel = useMemo(() => getPeriodLabel(timeFilter, period), [timeFilter, period]);
 
   return (
-    <div className="flex justify-between items-center text-sm text-gray-600 gap-5">
+    <div className="flex w-fit justify-between items-center text-sm text-gray-600 gap-5">
       <button
         onClick={goPrev}
         className="relative cursor-pointer inline-flex p-2 items-center justify-center rounded-md border-neutral-200 text-neutral-600 dark:text-neutral-200 bg-transparent transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800"

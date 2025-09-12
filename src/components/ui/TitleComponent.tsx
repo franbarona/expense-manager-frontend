@@ -8,6 +8,6 @@ export const TitleComponent: React.FC<TitleProps> = ({
   extraClass
 }) => {
   return (
-    <h1 className={`text-2xl font-semibold dark:text-white ${extraClass}`}>{children}</h1>
+    <h1 className={`text-2xl font-semibold text-primary ${extraClass}`}>{children}</h1>
   );
 };

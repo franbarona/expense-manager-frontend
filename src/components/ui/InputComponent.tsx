@@ -18,7 +18,7 @@ const InputComponent = ({ label, name, type, value, placeholder, onChange }: Pro
         value={value}
         placeholder={placeholder}
         onChange={onChange}
-        className="w-full border rounded p-2 dark:text-white capitalize"
+        className="w-full rounded p-2 capitalize text-primary bg-primary shadow-[0_0_0_1px_var(--color-border)]"
         required
       />
     </div>

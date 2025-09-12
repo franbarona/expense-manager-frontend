@@ -74,7 +74,7 @@ const Sidebar = ({ isExpanded, toggleSidebar, extraFuncOnClick }: Props) => {
               className={({ isActive }) =>
                 `flex items-center p-2 rounded justify-start dark:text-gray-50
               ${isExpanded ? "px-4 rounded-xl" : "px-2"}
-              ${isActive ? "text-white font-normal bg-blue-800/70 dark:bg-blue-900/90 dark:border-1 dark:border-sky-700" : "text-gray-600 hover:bg-indigo-600/10 dark:hover:bg-neutral-700/50"}
+              ${isActive ? "text-white font-normal bg-accent dark:border-1 dark:border-sky-700" : "text-gray-600 hover:bg-indigo-600/10 dark:hover:bg-neutral-700/50"}
               `}
             >
               {/* Icon container with fixed width */}
@@ -110,13 +110,13 @@ const Sidebar = ({ isExpanded, toggleSidebar, extraFuncOnClick }: Props) => {
           onClick={toggleSidebar}
           aria-label="Toggle sidebar"
           className={`
-            fixed hidden md:block bottom-10 z-10 text-2xl text-neutral-900 cursor-pointer transition-all duration-300 easy-in-out
+            fixed hidden md:block bottom-10 z-50 text-2xl text-neutral-900 cursor-pointer transition-all duration-300 easy-in-out
             ${toggleButtonPosition}
           `}
         >
           <div
             className={`
-              p-1 bg-blue-800/70 hover:scale-105 dark:bg-blue-900/90 dark:border-1 dark:border-sky-700 text-white rounded-full transition-transform duration-600 easy-in-out
+              p-1 bg-accent hover:scale-105 dark:border-1 dark:border-sky-700 text-white rounded-full transition-transform duration-600 easy-in-out
               ${arrowRotation}
             `}
           >

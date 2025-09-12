@@ -49,5 +49,6 @@ export type EChartBarChartData = {
   [key in Exclude<string, 'category'>]: number;  // Las claves dinámicas son de tipo 'number' pero no afectan a 'category'
 };
 
+export type AlertType = 'success' | 'error' | 'info';
 
 export type TransactionType = 'expense' | 'income';

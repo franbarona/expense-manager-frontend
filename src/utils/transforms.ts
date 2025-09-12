@@ -1,5 +1,9 @@
 import type { Category, EChartBarChartData, EChartPieChartData, Transaction, TransactionType } from "../types/types";
 
+export const variance = (num1: number, num2: number): number => {
+    return num1 - num2
+}
+
 export const transformNumberToPositive = (n: number): number => {
   return Math.abs(n);
 }

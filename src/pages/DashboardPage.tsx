@@ -48,13 +48,13 @@ export default function DashboardPage () {
       </div>
       <div className="grid grid-cols-12 gap-2 md:gap-5 px-2 md:px-5" >
         <div className="col-span-12 md:col-span-7 xl:col-span-8">
-          <div className="bg-white dark:bg-gray-950/95 dark:border-1 dark:border-gray-700 p-4 rounded-xl shadow">
+          <div className="bg-surface border-primary p-4 rounded-xl shadow">
             <TitleComponent extraClass="text-lg">Incomes vs Expenses by month</TitleComponent>
             <EchartBarChart data={groupTransactionsByMonthAndType(yearTransactions)}></EchartBarChart>
           </div>
         </div>
         <div className="col-span-12 md:col-span-5 xl:col-span-4">
-          <div className="bg-white dark:bg-gray-950/95 dark:border-1 dark:border-gray-700 p-4 rounded-xl shadow">
+          <div className="bg-surface dark:border-1 border-primary p-4 rounded-xl shadow">
             <TitleComponent extraClass="text-lg">Expenses</TitleComponent>
             <EchartPieChart data={mapToPieChartData(groupTransactionsByCategory(filterTransactionsByType(filteredTransactions, 'expense')), categories)} />
           </div>
@@ -62,7 +62,7 @@ export default function DashboardPage () {
       </div>
       <div className="grid grid-cols-12 gap-2 md:gap-5 px-2 md:px-5" >
         <div className="col-span-12 md:col-span-7 xl:col-span-6">
-          <div className="bg-white dark:bg-gray-950/95 dark:border-1 dark:border-gray-700 p-4 rounded-xl shadow">
+          <div className="bg-surface dark:border-1 border-primary p-4 rounded-xl shadow">
             <TitleComponent extraClass="text-lg">Recent transactions of {period.getFullYear()}</TitleComponent>
             <div className="h-[300px]">
               <TransactionList transactions={orderTransactionByRecentDate(yearTransactions)} limit={5} />
@@ -70,7 +70,7 @@ export default function DashboardPage () {
           </div>
         </div>
         <div className="col-span-12 md:col-span-5 xl:col-span-6">
-          <div className="bg-white dark:bg-gray-950/95 dark:border-1 dark:border-gray-700 p-4 rounded-xl shadow">
+          <div className="bg-surface dark:border-1 border-primary p-4 rounded-xl shadow">
             <TitleComponent extraClass="text-lg">Avarage expenses per day of the week</TitleComponent>
             <EchartBarChart data={groupExpensesByDayOfTheWeek(filteredTransactions)}></EchartBarChart>
           </div>

@@ -27,6 +27,8 @@ import { ModalComponent } from '../components/ui/ModalComponent';
 import PeriodNavigationControlComponent from '../components/ui/PeriodNavigationControlComponent';
 import { HeaderComponent } from '../components/ui/HeaderComponent';
 import { TitleComponent } from '../components/ui/TitleComponent';
+import { ConfirmationComponent } from '../components/ui/ConfirmationComponent';
+import { useAlert } from '../context/AlertContext';
 
 const TransactionsPage = () => {
   const { transactions, setTransactions } = useTransactions();
@@ -37,25 +39,30 @@ const TransactionsPage = () => {
   const { filtered: filteredTransactions } = useFilteredTransactions(transactions, transactionType, timeFilter, period);
   const { width } = useWindowSize();
   const { isModalOpen, openModal, closeModal, handleOverlayClick } = useModal();
+  const { isModalOpen: isDeleteModalOpen, openModal: openDeleteModal, closeModal: closeDeleteModal, handleOverlayClick: handleDeleteOverlayClick } = useModal();
   const [transactionToEdit, setTransactionToEdit] = useState<Transaction | null>(null);
+  const [transactionToDelete, setTransactionToDelete] = useState<Transaction | null>(null);
   useDisableScroll(isModalOpen);
+  const { addAlert } = useAlert();
   const isSticky = useStickyOnScroll();
 
-  // Click en crear transacción
+  // Click on create
   const createTransaction = () => {
     setTransactionToEdit(null);
     openModal();
   }
 
-  // Click en edit transacción
+  // Click on edit
   const editTransaction = (transaction: Transaction) => {
     setTransactionToEdit(transaction);
     openModal();
   };
 
-  // Click en borrar transacción
-  const deleteTransaction = (id: string) => {
-    setTransactions(transactions.filter(e => e.id !== id));
+  // Click on delete
+  const deleteTransaction = (transaction: Transaction) => {
+    setTransactionToDelete(transaction);
+    openDeleteModal();
+    // setTransactions(transactions.filter(e => e.id !== id));
   };
 
   // Manejar funcionalidad de crear transacción
@@ -72,7 +79,14 @@ const TransactionsPage = () => {
       newTransactions.splice(transactionToUpdateIndex, 1, transaction)
       setTransactions([...newTransactions]);
       closeModal();
+      addAlert({ type: 'success', message: `Transaction "${transaction?.name}" updated correctly` })
     }
+  };
+
+  const handleDeleteTransaction = () => {
+    setTransactions(transactions.filter(e => e.id !== transactionToDelete?.id));
+    closeDeleteModal();
+    addAlert({ type: 'success', message: `Transaction "${transactionToDelete?.name}" deleted correctly` })
   };
 
   // Cambiar tipo de transacción
@@ -92,16 +106,21 @@ const TransactionsPage = () => {
   return (
     <div className="pb-6">
       <HeaderComponent isSticky={isSticky}>
-        <div className='w-full flex flex-col md:flex-row items-center justify-between space-y-2'>
-          <TitleComponent>Transactions</TitleComponent>
-          {/* Section Time Filter */}
-          <SegmentedControlComponent
-            options={TimeFilterOptions}
-            value={timeFilter}
-            onChange={handleChangeTimeFilter as (value: string) => void} />
-
-          {/* Period Time Navigation */}
-          <PeriodNavigationControlComponent timeFilter={timeFilter} period={period} goPrev={goPrev} goNext={goNext} />
+        <div className='w-full items-center justify-between space-y-2 flex flex-col md:flex-row'>
+          <div className='flex-1'>
+            <TitleComponent>Transactions</TitleComponent>
+          </div>
+          <div className='flex-1'>
+            {/* Section Time Filter */}
+            <SegmentedControlComponent
+              options={TimeFilterOptions}
+              value={timeFilter}
+              onChange={handleChangeTimeFilter as (value: string) => void} />
+          </div>
+          <div className='flex-1 flex justify-end'>
+            {/* Period Time Navigation */}
+            <PeriodNavigationControlComponent timeFilter={timeFilter} period={period} goPrev={goPrev} goNext={goNext} />
+          </div>
         </div>
 
         <div className='flex flex-col-reverse gap-2 md:flex-row justify-center md:justify-between items-center md:items-baseline flex-wrap-reverse w-full px-4 md:mb-1 max-w-3xl m-auto'>
@@ -115,14 +134,14 @@ const TransactionsPage = () => {
 
       {
         filteredTransactions.length &&
-        <div className='max-w-3xl px-2 m-auto'>
-          <div className="bg-white dark:bg-gray-950/95 dark:border-1 dark:border-gray-700 p-4 mb-4 rounded-xl shadow">
+        <div className='max-w-3xl md:px-4 m-auto mb-10'>
+          <div className="p-4 mb-4 md:rounded-xl">
             <EchartPieChart data={mapToPieChartData(groupTransactionsByCategory(filteredTransactions), categories)} />
           </div>
         </div>
       }
 
-      <div className='max-w-3xl m-auto'>
+      <div className='max-w-3xl m-auto md:px-4'>
         <TransactionListByCategories
           transactions={filteredTransactions}
           onEdit={editTransaction}
@@ -141,6 +160,18 @@ const TransactionsPage = () => {
               initialTransaction={transactionToEdit}
               settedTransactionType={transactionType || 'expense'}
             />
+          </ModalComponent>
+        )
+      }
+      {
+        isDeleteModalOpen && (
+          <ModalComponent onClose={() => closeDeleteModal()} handleOverlayClick={handleDeleteOverlayClick}>
+            <ConfirmationComponent
+              title='Delete Transaction'
+              message='Are you sure you want to delete the transaction?'
+              onAccept={handleDeleteTransaction}
+              onCancel={closeDeleteModal}
+            ></ConfirmationComponent>
           </ModalComponent>
         )
       }

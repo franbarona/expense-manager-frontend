@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import type { Transaction } from "../types/types";
+import { variance } from "../utils/transforms";
 
 export function useTransactionTotals (transactions: Transaction[], prevTransactions: Transaction[]) {
 
@@ -13,7 +14,7 @@ export function useTransactionTotals (transactions: Transaction[], prevTransacti
     [transactions]
   );
 
-  const balance = totalIncome - totalExpenses;
+  const balance = totalIncome + totalExpenses;
 
   const totalIncomePrev = useMemo(
     () => prevTransactions.filter(t => t.type === "income").reduce((acc, t) => acc + t.amount, 0),
@@ -25,7 +26,7 @@ export function useTransactionTotals (transactions: Transaction[], prevTransacti
     [prevTransactions]
   );
 
-  const balancePrev = totalIncomePrev - totalExpensesPrev;
+  const balancePrev = totalExpensesPrev + totalIncomePrev;
 
   return { totalIncome, totalExpenses, balance, totalIncomePrev, totalExpensesPrev, balancePrev };
 }

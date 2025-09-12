@@ -8,7 +8,7 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider ({ children }: { children: ReactNode }) {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem("theme") === 'dark' ? true : false);
 
   useEffect(() => {
     if (isDarkMode) {
