@@ -40,27 +40,26 @@ const TransactionsPage = () => {
   const { width } = useWindowSize();
   const { isModalOpen, openModal, closeModal, handleOverlayClick } = useModal();
   const { isModalOpen: isDeleteModalOpen, openModal: openDeleteModal, closeModal: closeDeleteModal, handleOverlayClick: handleDeleteOverlayClick } = useModal();
-  const [transactionToEdit, setTransactionToEdit] = useState<Transaction | null>(null);
-  const [transactionToDelete, setTransactionToDelete] = useState<Transaction | null>(null);
+  const [transactionSelected, setTransactionSelected] = useState<Transaction | null>(null);
   useDisableScroll(isModalOpen);
   const { addAlert } = useAlert();
   const isSticky = useStickyOnScroll();
 
   // Click on create
   const createTransaction = () => {
-    setTransactionToEdit(null);
+    setTransactionSelected(null);
     openModal();
   }
 
   // Click on edit
   const editTransaction = (transaction: Transaction) => {
-    setTransactionToEdit(transaction);
+    setTransactionSelected(transaction);
     openModal();
   };
 
   // Click on delete
   const deleteTransaction = (transaction: Transaction) => {
-    setTransactionToDelete(transaction);
+    setTransactionSelected(transaction);
     openDeleteModal();
     // setTransactions(transactions.filter(e => e.id !== id));
   };
@@ -84,9 +83,9 @@ const TransactionsPage = () => {
   };
 
   const handleDeleteTransaction = () => {
-    setTransactions(transactions.filter(e => e.id !== transactionToDelete?.id));
+    setTransactions(transactions.filter(e => e.id !== transactionSelected?.id));
     closeDeleteModal();
-    addAlert({ type: 'success', message: `Transaction "${transactionToDelete?.name}" deleted correctly` })
+    addAlert({ type: 'success', message: `Transaction "${transactionSelected?.name}" deleted correctly` })
   };
 
   // Cambiar tipo de transacción
@@ -153,11 +152,11 @@ const TransactionsPage = () => {
       {/* Modal with Form */}
       {
         isModalOpen && (
-          <ModalComponent onClose={() => { closeModal(); setTransactionToEdit(null); }} handleOverlayClick={handleOverlayClick}>
+          <ModalComponent onClose={() => { closeModal(); setTransactionSelected(null); }} handleOverlayClick={handleOverlayClick}>
             <TransactionForm
-              onSubmit={transactionToEdit ? handleEditTransaction : handleAddTransaction}
-              onClose={() => { closeModal(); setTransactionToEdit(null); }}
-              initialTransaction={transactionToEdit}
+              onSubmit={transactionSelected ? handleEditTransaction : handleAddTransaction}
+              onClose={() => { closeModal(); setTransactionSelected(null); }}
+              initialTransaction={transactionSelected}
               settedTransactionType={transactionType || 'expense'}
             />
           </ModalComponent>
@@ -168,10 +167,11 @@ const TransactionsPage = () => {
           <ModalComponent onClose={() => closeDeleteModal()} handleOverlayClick={handleDeleteOverlayClick}>
             <ConfirmationComponent
               title='Delete Transaction'
-              message='Are you sure you want to delete the transaction?'
               onAccept={handleDeleteTransaction}
               onCancel={closeDeleteModal}
-            ></ConfirmationComponent>
+            >
+              <span className='text-center text-secondary'> Are you sure you want to delete the transaction <br /> <strong>{transactionSelected?.name}</strong>?</span>
+            </ConfirmationComponent>
           </ModalComponent>
         )
       }

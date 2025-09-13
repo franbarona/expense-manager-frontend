@@ -22,29 +22,28 @@ import { ConfirmationComponent } from '../components/ui/ConfirmationComponent';
 
 const CategoriesPage = () => {
   const { categories, setCategories } = useCategories();
-  const [categoryToEdit, setCategoryToEdit] = useState<Category | null>(null);
-  const [categoryToDelete, setCategoryToDelete] = useState<Category | null>(null);
+  const [categorySelected, setCategorySelected] = useState<Category | null>(null);
   const [transactionType, setTransactionType] = useState<TransactionType | undefined>('expense');
   const { isModalOpen, openModal, closeModal, handleOverlayClick } = useModal();
+  const { isModalOpen: isDeleteModalOpen, openModal: openDeleteModal, closeModal: closeDeleteModal, handleOverlayClick: handleDeleteOverlayClick } = useModal();
   const { width } = useWindowSize();
   const isSticky = useStickyOnScroll();
   const { addAlert } = useAlert();
-  const { isModalOpen: isDeleteModalOpen, openModal: openDeleteModal, closeModal: closeDeleteModal, handleOverlayClick: handleDeleteOverlayClick } = useModal();
 
   // Open modal to create category
   const createCategory = () => {
-    setCategoryToEdit(null);
+    setCategorySelected(null);
     openModal();
   }
 
   // Open modal to edit category
   const editCategory = (category: Category) => {
-    setCategoryToEdit(category);
+    setCategorySelected(category);
     openModal();
   }
 
   const deleteCategory = (category: Category) => {
-    setCategoryToDelete(category);
+    setCategorySelected(category);
     openDeleteModal();
   }
 
@@ -102,10 +101,10 @@ const CategoriesPage = () => {
       {isModalOpen && (
         <ModalComponent onClose={() => closeModal()} handleOverlayClick={handleOverlayClick}>
           <CategoryForm
-            onSubmit={categoryToEdit ? handleEditCategory : handleCreateCategory}
+            onSubmit={categorySelected ? handleEditCategory : handleCreateCategory}
             onDelete={deleteCategory}
-            onClose={() => { closeModal(); setCategoryToEdit(null); }}
-            initialCategory={categoryToEdit}
+            onClose={() => { closeModal(); setCategorySelected(null); }}
+            initialCategory={categorySelected}
             settedTransactionType={transactionType || 'expense'}
           />
         </ModalComponent>
@@ -122,10 +121,18 @@ const CategoriesPage = () => {
           <ModalComponent onClose={() => closeDeleteModal()} handleOverlayClick={handleDeleteOverlayClick}>
             <ConfirmationComponent
               title='Delete Category'
-              message={`Are you sure you want to delete the category "${categoryToDelete?.name}" ? All transactions with this category will appear without category` }
-              onAccept={() => handleDeleteCategory(categoryToDelete)}
+              onAccept={() => categorySelected && handleDeleteCategory(categorySelected)}
               onCancel={closeDeleteModal}
-            ></ConfirmationComponent>
+            >
+              <div className='text-center text-secondary space-y-4'>
+                <p>
+                  Are you sure you want to delete the category <br /> <strong>{categorySelected?.name}</strong> ?
+                </p>
+                <p>
+                  All transactions with this category will appear without category.
+                </p>
+              </div>
+            </ConfirmationComponent>
           </ModalComponent>
         )
       }

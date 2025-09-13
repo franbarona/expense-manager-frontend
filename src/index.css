@@ -96,10 +96,10 @@
 .text-secondary {
   color: var(--color-text-secondary);
 }
-
+/* 
 .text-secondary:hover {
   color: var(--color-invert);
-}
+} */
 
 .text-accent {
   color: var(--color-accent);
