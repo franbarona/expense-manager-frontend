@@ -15,7 +15,7 @@ export const ModalComponent: React.FC<ModalProps> = ({ onClose, handleOverlayCli
       className={`fixed inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.7)] backdrop-blur-sm bg-opacity-50 z-50 ${specialClass}`}
       onClick={handleOverlayClick} // Detecta el clic en el overlay
     >
-      <div className={`relative overflow-auto bg-white bg-surface border-primary rounded-lg shadow-lg max-w-lg max-h-[95%] w-full ${showCloseButton ? 'px-4 lg:px-10 py-6 m-5' : ''}`}>
+      <div className={`relative overflow-auto bg-white bg-surface rounded-lg shadow-lg max-w-lg max-h-[95%] w-full ${showCloseButton ? 'px-4 lg:px-10 py-6 m-5 border-primary' : ''}`}>
         {
           showCloseButton &&
           <button

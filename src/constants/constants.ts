@@ -4,8 +4,8 @@ export const TimeFilterOptionsDashboard = [
 ];
 
 export const ThemeOptions = [
-  { label: 'Dark', value: 'dark' },
-  { label: 'Light', value: 'light' }
+  { label: 'PiMoonBold', value: 'dark', isIcon: true },
+  { label: 'PiSunBold', value: 'light', isIcon: true }
 ];
 
 export const TransactionTypesOptions = [

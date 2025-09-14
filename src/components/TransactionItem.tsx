@@ -19,18 +19,20 @@ const TransactionItem = ({ transaction, showCategoryIcon = false, onEdit, onDele
 
   return (
     <li className="flex group">
-      <div className="w-full flex justify-between items-center" onClick={onEdit}>
-        <div className="flex flex-1/2 gap-3 overflow-hidden">
-          {showCategoryIcon && (
-            <CategoryIconFilled category={categories.find((c) => c.id === transaction.category)} />
-          )}
+      <div className="w-full h-11 flex justify-between items-center" onClick={onEdit}>
+        <div className="flex flex-1/2 gap-3 overflow-hidden h-full items-center">
+          {showCategoryIcon &&
+            <div className='min-w-14 h-full'>
+              <CategoryIconFilled category={categories.find((c) => c.id === transaction.category)} background={false} />
+            </div>
+          }
           <div className="flex flex-col">
             <span className={`font-normal truncate overflow-hidden dark:text-white`} style={{ width: `${width / 3}px` }}>{transaction.name}</span>
             <span className="text-sm text-gray-400">{transaction.date}</span>
           </div>
         </div>
         <div className="flex flex-1/2 justify-end items-center gap-4">
-          <span className={`font-normal ${transaction.amount > 0 ? 'text-green-900 dark:text-emerald-500' : 'text-red-800 dark:text-rose-600'}`}>
+          <span className={`font-normal ${transaction.amount > 0 ? 'text-green-900 dark:text-emerald-500' : 'text-red-800 dark:text-rose-400'}`}>
             {formatNumber(transaction.amount, 2)}$
           </span>
           <div className="flex gap-2 lg:gap-3">

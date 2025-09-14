@@ -11,8 +11,8 @@ type ActionButtonProps = {
 
 const typeStyles = {
   normal: "text-white bg-accent dark:border-1 dark:border-sky-700",
-  secondary: "bg-white/80 text-accent dark:border-2 dark:border-gray-700",
-  remove: "bg-white text-rose-500 border-1 border-rose-500"
+  secondary: "bg-white text-accent border-accent",
+  remove: "bg-white text-rose-500 border-rose-500 border-1"
 };
 
 export const ActionButton: React.FC<ActionButtonProps> = ({

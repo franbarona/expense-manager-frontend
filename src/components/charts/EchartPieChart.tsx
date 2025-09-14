@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import ReactECharts from 'echarts-for-react';
 import type { EChartPieChartData } from '../../types/types';
-import { formatNumber, transformNumberToPositive } from '../../utils/transforms';
+import { formatNumber, formatNumberParts, transformNumberToPositive } from '../../utils/transforms';
 import { useTheme } from '../../context/ThemeContext';
 
 interface Props {
@@ -14,6 +14,7 @@ const EchartPieChart = ({ data }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState<number>(0);
   const total = data.reduce((acc, item) => acc + item.value, 0);
+  const { decimalPart } = formatNumberParts(total);
   const { isDarkMode } = useTheme();
   const [textColor, setTextColor] = useState('#000')
 
@@ -59,32 +60,6 @@ const EchartPieChart = ({ data }: Props) => {
         fontFamily: "Poppins, sans-serif"
       }
     },
-    graphic: [
-      {
-        type: "text",
-        right: 'center',
-        bottom: 40,
-        style: {
-          text: `Total:`,
-          textAlign: "center",
-          fill: textColor,
-          fontSize: 20,
-          fontFamily: "Poppins, sans-serif" // 👈 tu tipografía aquí
-        }
-      },
-      {
-        type: "text",
-        right: 'center',
-        bottom: 10,
-        style: {
-          text: `${formatNumber(total, 2)}$`,
-          textAlign: "center",
-          fill: textColor, // equivalente a text-gray-800
-          fontSize: 32,
-          fontFamily: "Poppins, sans-serif" // 👈 tu tipografía aquí
-        }
-      }
-    ],
     series: [
       {
         type: 'pie',
@@ -93,10 +68,10 @@ const EchartPieChart = ({ data }: Props) => {
         padAngle: 4,
         itemStyle: {
           borderRadius: 5,
-          shadowBlur: 5, // Desenfoque de la sombra
+          shadowBlur: 5,
           shadowColor: 'rgba(0, 0, 0, 0.1)',
-          shadowOffsetX: 2, // Desplazamiento de la sombra en el eje X
-          shadowOffsetY: 2, // Desplazamiento de la sombra en el eje Y
+          shadowOffsetX: 2,
+          shadowOffsetY: 2,
         },
         label: {
           show: false
@@ -119,8 +94,15 @@ const EchartPieChart = ({ data }: Props) => {
   };
 
   return (
-    <div className='w-full h-full mx-0 my-auto' ref={containerRef}>
+    <div className='w-full h-full mx-0 my-auto relative' ref={containerRef}>
       <ReactECharts option={option} style={{ width: '100%' }} />
+      <div className='absolute bottom-0 flex flex-col justify-center items-center w-full'>
+        <span className='text-secondary'>Total:</span>
+        <div className='text-primary'>
+          <span className="text-2xl font-semibold">{formatNumber(total, 0)}</span>
+          <span className="text-lg font-medium">.{decimalPart}$</span>
+        </div>
+      </div>
     </div>
   );
 };

@@ -15,6 +15,11 @@ export const formatNumber = (num: number, decimals: number) => {
   }).format(num);
 };
 
+export const formatNumberParts = (num: number, decimals = 2) => {
+  const [integerPart, decimalPart] = num.toFixed(decimals).split('.');
+  return { integerPart, decimalPart };
+}
+
 export const filterTransactionsByType = (data: Transaction[], transactionType: TransactionType | undefined): Transaction[] => {
   if (!transactionType) return data;
   return data.filter(transaction => transaction.type === transactionType);

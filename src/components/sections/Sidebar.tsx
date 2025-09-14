@@ -14,10 +14,10 @@ interface Props {
 
 const SidebarHeader = ({ isExpanded }: Props) => {
   return (
-    <div className={`flex justify-start items-center p-2 font-bold font-outfit ${isExpanded ? "text-2xl" : "text-xl"}`}>
+    <div className={`flex justify-start items-center p-2 font-bold font-outfit ${isExpanded ? "text-4xl" : "text-xl"}`}>
       <img src="/MonetixLogo.svg" alt="" className="dark:hidden" />
       <img src="/MonetixLogo_dark.svg" alt="" className="hidden dark:block" />
-      {isExpanded && <h1 className="dark:text-white">MONETIX</h1>}
+      {isExpanded && <h1 className="text-primary">ONETIX</h1>}
     </div>
   )
 }
@@ -26,12 +26,16 @@ const SidebarBottom = ({ isExpanded }: Props) => {
   return (
     <div className="space-y-2">
       <div className={`flex items-center p-2 rounded justify-start text-gray-600 dark:text-gray-50 opacity-50 cursor-default ${isExpanded ? "px-4 gap-3 rounded-xl" : "px-2"}`}>
-        <div className="w-6 flex justify-center items-center">
+        <div
+          title="It's demo mode"
+          className="w-6 flex justify-center items-center">
           <TbLogout2 />
         </div>
 
         <div className={`overflow-hidden transition-transform duration-300 easy-in-out ${isExpanded ? "w-auto ml-2" : "w-0 ml-0"}`}>
-          <span className={`block whitespace-nowrap transition-opacity duration-300 easy-in-out delay-300 ${isExpanded ? "opacity-100" : "opacity-0"}`}>
+          <span
+            title="It's demo mode"
+            className={`block whitespace-nowrap transition-opacity duration-300 easy-in-out delay-300 ${isExpanded ? "opacity-100" : "opacity-0"}`}>
             Logout
           </span>
         </div>

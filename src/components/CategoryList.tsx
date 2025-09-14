@@ -19,10 +19,10 @@ const CategoryList = ({ categories, transactionType, onEdit }: Props) => {
             key={category.id}
             className={
               `aspect-square flex flex-col justify-center items-center overflow-hidden text-ellipsis 
-              text-2xl p-2 cursor-pointer group gap-4 bg-surface dark:border-1 border-primary rounded-lg shadow last:mb-4`}
+              text-2xl cursor-pointer group bg-surface dark:border-1 border-primary rounded-lg shadow last:mb-4`}
           >
             <CategoryIconFilled category={category} />
-            <span className='text-sm md:text-base overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full dark:text-white group-hover:font-medium'>
+            <span className='p-3 text-sm md:text-base overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full dark:text-white group-hover:font-medium'>
               {category.name}
             </span>
           </button>

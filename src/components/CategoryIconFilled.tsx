@@ -6,12 +6,13 @@ interface Props {
     icon: undefined;
     color: string;
   } | undefined;
+  background?: boolean
 }
 
 
-const CategoryIconFilled = ({ category }: Props) => {
+const CategoryIconFilled = ({ category, background = true }: Props) => {
   return (
-    <span className={`rounded-[50%] text-2xl p-2`} style={{ background: `${category?.color}20`, color: `${category?.color}`, border: `1px solid ${category?.color}30` }}>
+    <span className={`text-3xl w-full h-full flex justify-center items-center`} style={{ background: background ? `${category?.color}30` : '', color: `${category?.color}` }}>
       <DynamicIcon name={category?.icon}></DynamicIcon>
     </span>
   )

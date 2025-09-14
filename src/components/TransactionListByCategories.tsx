@@ -88,20 +88,27 @@ const TransactionListByCategories = ({ transactions, transactionType, onEdit, on
         const isExpanded = expandedCategories[categoryId];
 
         return (
-          <div key={categoryId} className="shadow-lg md:rounded-xl overflow-hidden bg-surface border-primary">
+          <div key={categoryId} className="shadow-lg md:rounded-xl overflow-hidden bg-surface border-primary my-3 mx-3">
             <button
               onClick={() => toggleCategory(categoryId)}
-              className="w-full text-left p-3 flex justify-between items-center font-medium cursor-pointer"
+              className="w-full text-left pr-3 flex justify-between items-center  cursor-pointer h-14"
             >
-              <span className={`inline-flex items-center gap-2 rounded`}>
-                <CategoryIconFilled category={transactionCategory}/>
-                <span className='font-medium dark:text-white'>
-                  {transactionCategory?.name} ({items.length})
-                </span>
-              </span>
+              <div className={`flex items-center gap-2 h-full`}>
+                <div className='min-w-14 h-full'>
+                  <CategoryIconFilled category={transactionCategory} />
+                </div>
+                <div className='flex flex-col'>
+                  <span className='font-medium text-primary inline-flex'>
+                    {transactionCategory?.name}
+                  </span>
+                  <span className='text-sm text-secondary'>
+                    {items.length} Transaction{items.length > 1 ? 's' : ''}
+                  </span>
+                </div>
+              </div>
               <div className='flex gap-2 justify-center items-center flex-nowrap'>
-                <span className={`flex justify-center items-center gap-2 ${total > 0 ? 'text-green-900 dark:text-emerald-500' : 'text-red-800 dark:text-rose-600'}`}>{formatNumber(total, 2)}$</span>
-                <span className='dark:text-white'>{isExpanded ? <FaAngleUp /> : <FaAngleDown />}</span>
+                <span className={`flex justify-center items-center gap-2 ${total > 0 ? 'text-green-900 dark:text-emerald-500' : 'text-red-800 dark:text-rose-500'}`}>{formatNumber(total, 2)}$</span>
+                <span className='text-primary'>{isExpanded ? <FaAngleUp /> : <FaAngleDown />}</span>
               </div>
             </button>
 

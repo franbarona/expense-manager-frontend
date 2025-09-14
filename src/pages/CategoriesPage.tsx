@@ -51,6 +51,7 @@ const CategoriesPage = () => {
   const handleCreateCategory = (category: Category) => {
     setCategories([...categories, category]);
     closeModal();
+    addAlert({ type: 'success', message: `Category "${category?.name}" created correctly` })
   };
 
   // Update category
@@ -61,6 +62,7 @@ const CategoriesPage = () => {
       newCategories.splice(categoryToUpdateIndex, 1, category)
       setCategories([...newCategories]);
       closeModal();
+      addAlert({ type: 'success', message: `Category "${category?.name}" updated correctly` })
     }
   };
 

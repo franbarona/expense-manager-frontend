@@ -8,7 +8,6 @@ import { CATEGORY_ICON_LIST, TAILWIND_COLORS_600, TransactionTypesWithoutBalance
 import { ActionButton } from './ui/ActionButtonComponent';
 import InputComponent from './ui/InputComponent';
 import PickerComponent from './ui/PickerComponent';
-import { FaRegTrashAlt } from 'react-icons/fa';
 
 interface Props {
   onSubmit: (category: Category) => void;
@@ -107,10 +106,10 @@ const CategoryForm = ({ onSubmit, onDelete, initialCategory, settedTransactionTy
       <PickerComponent label='Color' type='colors' selectedValue={formData.color} options={Object.values(TAILWIND_COLORS_600)} onSelect={handleChangeColor} columns={8} />
 
       <div className='flex justify-center gap-4'>
-        <ActionButton label={(initialCategory ? 'Update ' : 'Add ') + 'category'} disabled={!isValid()}></ActionButton>
+        <ActionButton label={(initialCategory ? 'Update' : 'Add category')} disabled={!isValid()}></ActionButton>
         {
           initialCategory &&
-          <ActionButton label={'Delete'} style='remove' icon={FaRegTrashAlt} action={() => onDelete(initialCategory)}></ActionButton>
+          <ActionButton label={'Delete'} style='remove'  action={() => onDelete(initialCategory)}></ActionButton>
         }
       </div>
     </form>
