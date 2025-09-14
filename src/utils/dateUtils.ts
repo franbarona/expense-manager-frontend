@@ -3,7 +3,7 @@ import {
   isSameWeek, isSameMonth, isSameYear, parseISO,
   subDays, subWeeks, subMonths, subYears,
   addDays, addWeeks, addMonths, addYears,
-  getWeek
+  getISOWeek
 } from 'date-fns';
 
 export type TimeFilter = 'day' | 'week' | 'month' | 'year';
@@ -13,19 +13,21 @@ export const getCurrentYear = () => {
 }
 
 export function getPeriodLabel (filter: TimeFilter, refDate: Date): string {
+  const periodDate = refDate > new Date() ? new Date() : new Date(refDate);
   switch (filter) {
     case 'day':
-      return format(refDate, 'MMMM d, yyyy');
+      return format(periodDate, 'MMMM d, yyyy');
     case 'week':
       {
-        const start = startOfWeek(refDate, { weekStartsOn: 1 });
-        const end = endOfWeek(refDate, { weekStartsOn: 1 });
+        const start = startOfWeek(periodDate, { weekStartsOn: 1 });
+        const end = endOfWeek(periodDate, { weekStartsOn: 1 });
+
         return `${format(start, 'MMM d, yyyy')} - ${format(end, 'MMM d, yyyy')}`;
       }
     case 'month':
-      return format(refDate, 'MMMM yyyy');
+      return format(periodDate, 'MMMM yyyy');
     case 'year':
-      return format(refDate, 'yyyy');
+      return format(periodDate, 'yyyy');
     default:
       return '';
   }
@@ -78,13 +80,13 @@ export function getNextPeriod (timeFilter: TimeFilter, period: Date): Date {
 }
 
 export function isNextDisabled (period: Date, timeFilter: TimeFilter): boolean {
-  const now = new Date();
+  const now = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
   switch (timeFilter) {
     case 'day':
-      return period.toLocaleDateString() >= now.toLocaleDateString();
+      return period >= now;
 
     case 'week':
-      return getWeek(period) >= getWeek(now) && period.getMonth() >= now.getMonth() && period.getFullYear() >= now.getFullYear();
+      return getISOWeek(period) >= getISOWeek(now) && period.getMonth() >= now.getMonth() && period.getFullYear() >= now.getFullYear();
 
     case 'month':
       return period.getMonth() >= now.getMonth() && period.getFullYear() >= now.getFullYear();

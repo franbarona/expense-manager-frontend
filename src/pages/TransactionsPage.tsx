@@ -132,7 +132,7 @@ const TransactionsPage = () => {
       </HeaderComponent>
 
       {
-        filteredTransactions.length &&
+        filteredTransactions.length > 0 &&
         <div className='max-w-3xl md:px-4 m-auto mb-10'>
           <div className="p-4 mb-4 md:rounded-xl">
             <EchartPieChart data={mapToPieChartData(groupTransactionsByCategory(filteredTransactions), categories)} />
