@@ -70,7 +70,7 @@ const App: React.FC = () => {
                       </div>
                       <footer className={`absolute flex bottom-5 left-[50%] translate-x-[-50%] text-[var(--color-text-secondary)] text-xs md:text-sm text-center whitespace-nowrap`}>
                         <Link to="https://www.franbarona.dev" target="_blank" rel="noopener noreferrer">
-                          Copyright © {getCurrentYear()} franbarona.dev
+                          © {getCurrentYear()}, Fran Barona
                         </Link>
                       </footer>
                     </main>

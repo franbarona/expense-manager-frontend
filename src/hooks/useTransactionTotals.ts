@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import type { Transaction } from "../types/types";
-import { variance } from "../utils/transforms";
 
 export function useTransactionTotals (transactions: Transaction[], prevTransactions: Transaction[]) {
 

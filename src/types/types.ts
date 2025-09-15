@@ -52,3 +52,4 @@ export type EChartBarChartData = {
 export type AlertType = 'success' | 'error' | 'info';
 
 export type TransactionType = 'expense' | 'income';
+
